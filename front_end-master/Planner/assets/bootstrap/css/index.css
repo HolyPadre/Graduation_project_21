@@ -1,0 +1,51 @@
+.price .box-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap:2.5rem;
+}
+
+.price .box-container .box{
+    padding:2rem 0;
+    background:#20c997;
+    border-radius: .5rem;
+    text-align: center;
+    box-shadow: 0 5px 15px 0 #2C3E50;
+
+}
+
+.price .box-container .box:hover{
+    transform: scale(1.03);
+}
+
+.price .box-container .box .title{
+    background:#2C3E50;
+    color:#fff;
+    padding:1.5rem 0;
+    font-size: 2rem;
+}
+
+.price .box-container .box .amount{
+    color:#fff;
+    padding-top: 2rem;
+    font-size: 4rem;
+}
+
+.price .box-container .box ul{
+    list-style-type: none;
+    padding:1rem 0;
+}
+
+.price .box-container .box ul li{
+    font-size: 1.5rem;
+    color:#eee;
+    padding:1rem 0;
+}
+
+.price .box-container .box ul li i{
+    color:#2C3E50;
+    padding-right: .5rem;
+}
+
+.price .box-container .box a {
+    background:#2C3E50;
+}

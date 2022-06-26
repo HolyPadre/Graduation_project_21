@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Register - Brand</title>
+    <link rel="stylesheet" href="/Planner/assets2/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/Planner/assets2/fonts/fontawesome-all.min.css">
+</head>
+
+<body class="bg-gradient" style="background-color:#2C3E50;">
+    <div class="container p-5">
+        <div class="card shadow-lg o-hidden border-0 my-5">
+            <div class="card-body p-0">
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-flex">
+                        <div class="flex-grow-1 bg-register-image" style="background-image: url(/Planner/assets/images/g-5.jpg);"></div>
+                    </div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h4 class="text-dark mb-4">Create an Account!</h4>
+                            </div>
+                            <form class="user" id="form">
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="User Name *" name="username"></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="Phone Number *" name="phone"></div>
+                                </div>
+                                <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address *" name="email"></div>
+                                <div class="row mb-3">
+                                    <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Password *" name="password"></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password *" name="password2"></div>
+                                </div><button class="btn btn d-block btn-user w-100" type="submit" style="font-weight: 900; background-color: #2C3E50; color: aliceblue;">Register Account</button>
+                                <hr>
+                            </form>
+                            <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
+                            <div class="text-center"><a class="small" href="login.html">Already have an account? Login!</a></div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/Planner/assets2/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Planner/assets2/js/bs-init.js"></script>
+    <script src="/Planner/assets2/js/theme.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+<script>
+    $('#form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/signup/customer',
+            crossDomain: true,
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function (data) {
+                 if(data.message == "account created successfully"){
+                   window.location.replace("../../index.html")
+                 }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        })
+    });
+</script>
+<script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+</script>
+<script>
+    window.onload = (event) => {
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                "username": getCookie("username_user"),
+                "password": getCookie("password_user")
+            },
+            success: function (data) {
+                 if(data.is_customer == true){
+                   window.location.replace("../../index.html");
+                     console.log(data.is_customer)
+                 }else if(data.is_vendor == true){
+                     window.location.replace("../vendorPage/vendorDashboard.html");
+                 }else if(data.is_customer == false && data.is_vendor == false  ){
+                     window.location.replace("../adminPage/adminDashboard.html");
+                 }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        })
+};
+</script>
+</html>

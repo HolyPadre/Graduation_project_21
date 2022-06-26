@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Events</title>
+    <link rel="stylesheet" href="/Planner/assets2/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/Planner/assets2/fonts/fontawesome-all.min.css">
+</head>
+
+<body id="page-top">
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient p-0" style="background-color: #2C3E50;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-user"></i></div>
+                    <div class="sidebar-brand-text mx-3"style="font-size: 15px;"><span style="color: #20c997;">P</span>lanner Admin</div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/adminDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/contracts.html"><i class="fas fa-calendar"></i><span>Contracts</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/feedback.html"><i class="fas fa-comments"></i><span>Feedbacks</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/vendors.html"><i class="fas fa-users"></i><span>Vendors</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href=""><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/adminPage/customers.html"><i class="fas fa-users"></i><span>Customers</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
+
+   
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="content">
+                <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                    <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button><h7 id="admin-name">Admin Name</h7>
+                    
+                        <ul class="navbar-nav flex-nowrap ms-auto">
+                            <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                                <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
+                                    <form class="me-auto navbar-search w-100">
+                                        <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                            <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                         
+                      
+                            <div class="d-none d-sm-block topbar-divider"></div>
+                            <li class="nav-item dropdown no-arrow">
+                                <div class="nav-item dropdown no-arrow">
+                                    <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                        <img class="border rounded-circle img-profile" src="/Planner/assets2/img/avatars/avatar4.jpeg">
+                                    </a>
+                                  
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </nav>
+                <div class="container-fluid">
+                    <h3 class="text-dark mb-4">Events Table</h3>
+                    <div class="card shadow">
+                        
+                        <div class="card-body">
+                            <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..."><button class="btn btn py-0" type="button" style="background-color: #2C3E50;"><i class="fas fa-search"></i></button></div>
+                            </form>
+                            <div class="table-responsive table mt-2" id="dataTable" role="grid" aria-describedby="dataTable_info">
+                                <table class="table my-0" id="dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>Event Name</th>
+                                            <th>Date</th>
+                                            <th>Location</th>
+                                            <th>Type</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tevent">
+                                    </tbody>
+                                   
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <script src="/Planner/assets2/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Planner/assets2/js/bs-init.js"></script>
+    <script src="/Planner/assets2/js/theme.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+<script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+</script>
+<script>
+    window.onload = (event) => {
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                "username": getCookie("username_user"),
+                "password": getCookie("password_user")
+            },
+            success: function (data) {
+                 if(data.is_customer == true){
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+                     console.log(data.is_customer)
+                 }else if(data.is_vendor == true){
+                    window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
+                 }else if(data.is_manager == true  ){
+                 }
+            },
+            error: function (data) {
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+            }
+        })
+
+};
+</script>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+</script>
+<script>
+    function logoutfunction(){
+    setCookie("username_user","",1);
+    setCookie("password_user","",1);
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+                  url: "http://127.0.0.1:8086/event/all", 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                          $('#tevent').append("<tr>\
+                                      <td>"+value.name+"</td>\
+                                      <td>"+value.Date+"</td>\
+                                      <td>"+value.location+"</td>\
+                                      <td>"+value.type+"</td>\
+                                      </tr>");
+                      })
+                  }
+                })
+              });
+</script>
+</html>

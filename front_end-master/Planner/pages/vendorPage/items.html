@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Vendor Items</title>
+    <link rel="stylesheet" href="/Planner/assets2/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/Planner/assets2/fonts/fontawesome-all.min.css">
+
+</head>
+
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-dark align-items-start sidebar sidebar-dark accordion bg-gradient p-0" style="background-color: #2C3E50;">
+            <div class="container-fluid d-flex flex-column p-0"><a class="navbar-brand d-flex justify-content-center align-items-center sidebar-brand m-0" href="#">
+                    <div class="sidebar-brand-icon rotate-n-15"><i class="fas fa-cannabis"></i></div>
+                    <div class="sidebar-brand-text mx-3"style="font-size: 15px;"><span style="color: #20c997;">P</span>lanner Vendor</div>
+                </a>
+                <hr class="sidebar-divider my-0">
+                <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/vendorDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
+                    <li class="nav-item"><a class="nav-link active" href=""><i class="fas fa-sitemap"></i><span>Items</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/requests.html"><i class="fas fa-list"></i><span>Reservation Requests</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
+
+   
+                </ul>
+                <div class="text-center d-none d-md-inline"><button class="btn rounded-circle border-0" id="sidebarToggle" type="button"></button></div>
+            </div>
+        </nav>
+        <div class="d-flex flex-column" id="content-wrapper">
+            <div id="contentdetails"> <!--    Add Items-->
+                <section id="nav-section">
+                    <nav class="navbar navbar-light navbar-expand bg-white shadow mb-4 topbar static-top">
+                        <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button><h7 id="admin-name">Vendor Name</h7>
+                            <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
+                                <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..."><button class="btn btn py-0" type="button" style="background-color: #2C3E50;"><i class="fas fa-search"></i></button></div>
+                            </form>
+                            <ul class="navbar-nav flex-nowrap ms-auto">
+                                <li class="nav-item dropdown d-sm-none no-arrow"><a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#"><i class="fas fa-search"></i></a>
+                                    <div class="dropdown-menu dropdown-menu-end p-3 animated--grow-in" aria-labelledby="searchDropdown">
+                                        <form class="me-auto navbar-search w-100">
+                                            <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ...">
+                                                <div class="input-group-append"><button class="btn btn-primary py-0" type="button"><i class="fas fa-search"></i></button></div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </li>
+                             
+                          
+                                <div class="d-none d-sm-block topbar-divider"></div>
+                                <li class="nav-item dropdown no-arrow">
+                                    <div class="nav-item dropdown no-arrow">
+                                        <a class="dropdown-toggle nav-link" aria-expanded="false" data-bs-toggle="dropdown" href="#">
+                                            <img class="border rounded-circle img-profile" src="/Planner/assets2/img/avatars/avatar4.jpeg">
+                                        </a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </section>
+             
+                <div class="container">
+                    <div class="row" style="gap : 1em;" id="addcards">
+                        <!-- <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">                      
+                            <div class="card" style="width: 20rem;">
+                                <img src="/Planner/assets/images/Heading-to-a-Concert.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                  <h4 class="card-title">Item Name</h4>
+                                  <h5 class="card-about">About</h5>
+                                  <a href="" class="btn btn" style="background-color: #2C3E50; color: aliceblue;" data-bs-toggle="modal" data-bs-target="#exampleModal" onclick="showId(this.id)" id="button">More Details</a>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                </div>
+                
+                
+                <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;"></h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-indicators" id="slideid">
+                              <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                              <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button> -->
+                            </div>
+                            <div class="carousel-inner" id="imagesadd">
+                              <!-- <div class="carousel-item active">
+                                <img src="/Planner/assets/images/g-3.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/Planner/assets/images/g-4.jpg" class="d-block w-100" alt="...">
+                              </div>
+                              <div class="carousel-item">
+                                <img src="/Planner/assets/images/g-5.jpg" class="d-block w-100" alt="...">
+                              </div> -->
+                            </div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                              <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                              <span class="visually-hidden">Next</span>
+                            </button>
+                          </div>
+                          
+                    </div>
+                
+                    <div class="row p-5">
+                        <div class="col-md-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: larger; font-weight:900; color: #2C3E50;">Location</span></div>
+                                        </div>
+                                    <a href="" style="text-decoration: none;">
+                                        <div class="address" id="addresswrite"></div>
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: larger; font-weight:900; color: #2C3E50;">Phone Number</span></div>
+                                        </div>
+                                    <a href="" style="text-decoration: none;">
+                                        <div class="address" id="phonewrite"></div>
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: larger; font-weight:900; color: #2C3E50;">Price</span></div>
+                                        </div>
+                                    <a href="" style="text-decoration: none;">
+                                        <div class="address" id="pricewrite"></div>
+                                    </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="card shadow border-start-primary py-2">
+                                <div class="card-body">
+                                    <div class="row align-items-center no-gutters">
+                                        <div class="col me-2">
+                                            <div class="text-uppercase text-primary fw-bold text-xs mb-1"><span style="font-size: larger; font-weight:900; color: #2C3E50;">Find Us On</span></div>
+                                        </div>
+                                        <a href="" style="text-decoration: none;" id="linkwrite"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+                </div>
+            </div>
+        </div>
+    <script src="/Planner/assets2/js/chart.min.js"></script>
+    <script src="/Planner/assets2/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Planner/assets2/js/bs-init.js"></script>
+    <script src="/Planner/assets2/js/theme.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+  </script>
+<script>
+  function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+  return null;
+  }
+</script>
+<script>
+    window.onload = (event) => {
+        $.ajax({
+  
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                "username": getCookie("username_user"),
+                "password": getCookie("password_user")
+            },
+            success: function (data) {
+                 if(data.is_customer == true){
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+                     
+                 }else if(data.is_vendor == true){
+                    $("#admin-name").html("<b id>User-Name: "+getCookie("username_user")+"</b>");
+                    console.log(data.user_id)
+                    $.ajax({
+                    url: "http://localhost:8000/item/vendorid?vendor_id="+data.user_id,
+                    type: "GET",          
+                    cache: true, 
+                    success: function(response){
+                        
+                        $.each(response, function (key, value) { 
+                            console.log();
+                            imageurl = "http://127.0.0.1:8000"+value.images[0].item_image;
+                            $("#addcards").append(" <div class='col-lg-3 col-md-6 col-sm-12 col-xs-12'><div class='card' style='width: 20rem;'>\
+                                                    <img src='"+imageurl+"' class='card-img-top' alt='...' style='width: 319px; height: 215px; object-fit: cover;'>\
+                                                    <div class='card-body'>\
+                                                    <h4 class='card-title'>"+value.name+"</h4>\
+                                                    <h5 class='card-about'>About</h5>\
+                                                    <a href='' class='btn btn' style='background-color: #2C3E50; color: aliceblue;' data-bs-toggle='modal' data-bs-target='#exampleModal' onclick='showId(this.id)' id='"+value.id+"button'>More Details</a>\
+                                                    </div>\
+                                                    </div>\
+                                                    </div>");
+                        })
+                        
+                    }
+
+                    })
+                    
+                 }else if(data.is_customer == false && data.is_vendor == false  ){
+                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
+                 }
+            },
+            error: function (data) {
+              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+            }
+        })
+
+
+  };
+  </script>
+
+  <script>
+    function logoutfunction(){
+    setCookie("username_user","",1);
+    setCookie("password_user","",1);
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+    }
+  </script>
+
+
+<script>
+    function showId(clicked_id){
+
+        
+        var idbutton = clicked_id.split("button")[0];
+        $.ajax({
+                    url: "http://localhost:8000/item/items/"+idbutton,
+                    type: "GET",          
+                    cache: true, 
+                    success: function(response){
+                        var counter  = 1;
+                        $.each(response, function (key, value) { 
+                            if(counter == 2)
+                        {
+                            $("#exampleModalLabel").html("<b>"+value+"</b>");
+
+                        }
+
+                        else if(counter == 3)
+                        {
+                            $("#addresswrite").html("<b>"+value+"</b>");
+                        }
+                        else if(counter == 5)
+                        { 
+                            $("#phonewrite").html("<b>"+value+"</b>");
+
+                        }
+                        else if(counter == 6)
+                        {
+                            $("#linkwrite").html("<b>"+value+"</b>");
+
+                        }
+                        else if(counter == 8)
+                        {   
+                            $("#pricewrite").html("$<b>"+value+"</b>");
+                        }
+                        else if(counter == 13)
+                        {
+                            for( i in value){
+                                if(i == 0)
+                                {
+                                    
+                                    $("#slideid").html("<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' class='active' aria-current='true' aria-label='Slide 1'></button>");
+                                    $("#imagesadd").html("<div class='carousel-item active'>\
+                                                            <img src='"+value[i].item_image+"' class='d-block w-100' alt='...'>\
+                                                            </div>");
+                                }
+                                else
+                                {
+                                $("#slideid").append("<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='"+i+"' aria-label='Slide "+(i+1)+"'></button>");
+                                $("#imagesadd").append("<div class='carousel-item'>\
+                                                        <img src='"+value[i].item_image+"' class='d-block w-100' alt='...'>\
+                                                        </div>");
+                                }
+                            }
+                        }
+                        counter++;
+                        })
+                        
+                    }
+
+                    })
+
+        
+    }
+</script>
+</html>

@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Single Venue</title>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    <!----===== Iconscout CSS ===== -->
+
+    <link rel="stylesheet" href="/Planner/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/Planner/pages/customerPage/main.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/Planner/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="main.css">
+
+
+</head>
+
+<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-secondary text-uppercase" id="mainNav">
+        <div class="container"><a class="navbar-brand" href="#page-top"> <span style="color: #20c997;">P</span>lanner</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="">Home</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Vendors</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">My Events</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt">Log Out</i></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+   
+   
+
+    <section id="singleVenueSection">
+        <div class="container p-3">
+            <div class="row">
+                <h1 id="venueName" style="font-weight: 300; margin-top: 0; color: #666;">
+                </h1>
+                <div class="row" >
+                    <div class="col-sm-12">
+                        <div style="float: left; padding-right: 25px; font-weight: 300; color: #666;"><h5 id="locationtext"></h5></div> <!-- Location -->
+                        <div style="float: left;">
+                            <ol class="breadcrumb" style="gap: 1em;" id="informationvenue"> <!-- Venue Information-->
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row p-5">
+                <div style="clear: both; padding: 10px 0;">
+                    <input type="button" class="btn btn-secondary btn-lg" style="float: left; font-size: 18px; height: 44px; width: 250px;" data-bs-toggle="modal" data-bs-target="#exampleModal1" title="Request Pricing" value="Request Pricing" >
+
+                        <div style="float: left; padding-left: 25px;" class="eve-price-highlight">
+                            <div class="fa fa-bolt" style="color: #FFCC00; font-size: 20px; padding-top: 10px;" aria-hidden="true"></div> 
+                           <span style="color: orange; font-weight:900;">Typically Responds within 24 hours</span> 
+                        </div>
+                </div>
+            </div>
+ <!-- Modal -->
+ <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;">Venue Request</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                  <form class="row g-3">
+                    <div class="col-md-6">
+                      <label for="inputType" class="form-label">Availability Time *</label>
+                      <select class="form-select" aria-label="Default">
+                        <option value="1">6-8</option>
+                      </select>
+                    </div>
+                  </form>
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Send Request</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+            <div class="row p-5">
+                <div id="carouselExampleIndicators"  class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators Center" id="slideid">
+                      <!-- <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button> -->
+
+                    </div>
+                    <div class="carousel-inner" id="imagesvenu">
+                      <!-- <div class="carousel-item active">
+                        <img src="/Planner/assets/images/g-1.jpg" class="d-block w-100" alt="...">
+                      </div>
+
+                      <div class="carousel-item">
+                        <img src="/Planner/assets/images/g-3.jpg" class="d-block w-100" alt="...">
+                      </div> -->
+                    </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="visually-hidden">Next</span>
+                    </button>
+                  </div>
+            </div>
+
+            <div class="row p-5 shadow-lg mb-5 bg-body rounded">
+                <div class="col-xs-12" >
+                    <div class="detail-section">
+                        <h2 style="font-weight: 300; color: #666;" id="aboutname">About Briarhurst Manor Estate</h2> <!-- About  this venue-->
+                        <div id="providerInfo">
+                            <div style="white-space: pre-line; font-weight: 700;" id="aboutdiscription"></div><!-- About  this venue information-->
+                            <!-- <ol class="breadcrumb" style="gap: 1em;">
+                                    <li>
+                                        <a rel="nofollow" href="http://www.briarhurst.com/" target="blank" class="eve-link-color" onclick="IncrementProviderCounter('/hikurangi/provider/WebService.asmx/IncrementProviderCounter', 38338, 'PrUrlClick', 'false');" style="text-decoration: none;">Website</a>
+                                    </li>
+                                    <li style="color: #666;">/</li>                            
+                                    <li>
+                                            <a rel="nofollow" onclick="IncrementProviderCounter('/hikurangi/provider/WebService.asmx/IncrementProviderCounter', 38338, 'PrFacebook', 'false');" href="https://www.facebook.com/BriarhurstManorEstate" target="blank" class="eve-link-color"style="text-decoration: none;">Facebook</a>
+                                    </li>
+                                    <li style="color: #666;">/</li>
+                                        <li>
+                                            <a rel="nofollow" onclick="IncrementProviderCounter('/hikurangi/provider/WebService.asmx/IncrementProviderCounter', 38338, 'PrUrlClick', 'false');" href="http://www.briarhurst.com" target="blank" class="eve-link-color" style="text-decoration: none;">Online Menu</a>
+                                        </li>                                
+                            </ol> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row p-5 shadow-lg mb-5 bg-body rounded">
+                <div class="col-xs-12">
+                    <div class="detail-section">
+                        <h2 style="font-weight: 300; color:#666">Event Pricing</h2>
+                        <div class="center-block">
+                                <div id="eve-package0" data-content="eve-package0-content" class="collapsible-header eve-rect center-block eve-hover-pointer p-3" style="margin-bottom: 5px; margin-top: 5px;">
+                                    <div class="eve-rect-body" >
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <div class="h4 eve-ellipsis" style="font-weight: 300; color: #666; padding: 2px 0;">For one day</div>
+                                                <span class="hidden-xs" style="font-weight: 300; color:#666">
+                                                    <span>Pricing is for </span>
+                                                    <span>all event types</span>
+                                            </span>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="eve-rect-footer hidden-xs text-center" >
+                                                    <div class="eve-price-highlight h4"style="color: orange;" id="priceday"></div>
+                                                </div>
+                                            </div>
+                                        </div> 
+                                    </div>
+                                   
+                                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row p-5 shadow-lg mb-5 bg-body rounded">
+            <div class="col-xs-12">
+                <div class="detail-section">
+                    <h2 style="font-weight: 300; color:#666">Recommendations</h2>
+                        <div class="eve-recommendations center-block" style="background-color: #fff; margin-bottom: 5px;">
+                            <div style="width: 100%; font-weight: 300; color: #666;">
+                                <b style="font-weight: 900;">Beautiful Historic Wedding Venue!</b>
+                                <span> - An Eventective User</span>
+                                <br>
+                                <br>
+                                <p style="text-align: justify;">We had a wonderful, comfortable wedding of 60 at the Conservatory!  The staff was more than helpful and provided amazing service.  Every step of the way was detailed and they answered all questions and concerns.  Working with Janice and the Briarhurst staff helped create our incredible wedding!  
+                                    From, The Hendersons </p>
+                            </div>
+                        </div>
+                    <div class="text-center" style="width: 100%">
+                        <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="eve-link-color review-button" href="" style="text-decoration: none; font-weight:900">Write A Recommendation</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+                                            <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header" style="text-align: center;">
+              <h4 class="modal-title" id="exampleModalLabel" style=" font-weight: 900; color: black;">Write a Recommendation</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Help others learn about local event businesses by writing a recommendation</p>
+                <div class="container-fluid">
+                    <div class="text-danger">
+                        <ul id="dialog-recommend-validation-summary"></ul>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label" style="font-weight: 900;">Title:</label>
+                        <div class="col-sm-12">
+                            <input maxlength="100" tabindex="7001" class="form-control" id="RecDialogTitleTextBox" name="RecDialogTitleTextBox" type="text" placeholder="Summarize your experience with this business">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"style="font-weight: 900;">Your Location:</label>
+                        <div class="col-sm-12">
+                            <input maxlength="100" tabindex="7002" class="form-control typeahead search-city" id="RecDialogLocationTextBox" name="RecDialogLocationTextBox" type="text" placeholder="City, State/Province">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"style="font-weight: 900;">Email:</label>
+                        <div class="col-sm-12">
+                            <input maxlength="100" tabindex="7003" class="form-control" id="RecDialogEmailTextBox" name="RecDialogEmailTextBox" type="text" placeholder="Your Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label"style="font-weight: 900;">Comments:</label>
+                        <div class="col-sm-12">
+                            <textarea maxlength="3000" tabindex="7004" class="form-control" rows="5" placeholder="Tell everyone how great Briarhurst Manor Estate was for your event!" id="RecDialogDescTextBox" name="RecDialogDescTextBox"></textarea>
+                        </div>
+                    </div>
+                </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Submit</button>
+            </div>
+          </div>
+        </div>
+  </div>
+</div>
+
+
+
+
+        <div class="row p-5 shadow-lg mb-5 bg-body rounded">
+            <div class="col-xs-12">
+                <div class="detail-section">
+                    <div class="row" style="background-color: #fff; margin: 10px 0; padding: 15px;">
+                                                           
+                        <div class="col-xs-12" style="display: inline-block; margin: 10px 0; vertical-align: top;">
+                                <span>
+                                    <h4 style="font-weight: 300; color:#666">Venue Types</h4>
+                                </span>
+                                <ul style="list-style-type: circle; padding-left: 24px; font-weight: 300; color: #666;" id="venuelist">
+                                </ul>
+                            </div>
+                                                            
+                            <div class="col-sm-6" style="display: inline-block; margin: 10px 0; vertical-align: top;">
+                                <span>
+                                    <h4 style="font-weight: 300; color:#666">Amenities</h4>
+                                </span>
+                                <ul style="list-style-type: circle; padding-left: 24px; font-weight: 300; color: #666;" id="amenitieslist">
+                                </ul>
+                            </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recomanded Items -->
+        <div class="row p-5 shadow-lg mb-5 bg-body rounded">
+            <div class="col-xs-12">
+                <div class="detail-section">
+                    <h2 style="font-weight: 300; color:#666">Recomanded Items</h2>
+                    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                        <div class="carousel-inner" id="recommendetcards">
+                          <!-- <div class="carousel-item active">
+                            <div class="cards-wrapper">
+                                <div class="card d-none d-md-block">
+                                    <a href="/Event_Planner_FrontEnd/Planner/pages/customerPage/singleVenue.html" style="text-decoration: none;">
+                                      <div class="card" style="width: 25rem;">
+                                        <img src="/Event_Planner_FrontEnd/Planner/assets/images/g-1.jpg" class="card-img-top" alt="...">
+                                        <div class="card-body">
+                                          <h5 class="card-title">Card title</h5>
+                                          <p class="card-text" style="color: black;">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                          <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal1">Requset Pricing</a>
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </div>                
+                          </div>
+                          </div> -->
+                          
+                        </div>
+                        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                          <span class="sr-only">Next</span>
+                        </a>
+                      </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+     
+
+    <footer class="text-center footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">Location</h4>
+                    <p>2215 Palestine Ramallah<br>Birzeit, MO 65243</p>
+                </div>
+                <div class="col-md-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase">Find Us On</h4>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-facebook fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-linkedin fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-twitter fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-github fa-fw"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="text-uppercase mb-4">About Planner</h4>
+                    <p class="lead mb-0"><span>Planner created by pairing together our passion for business and events.&nbsp;</span></p>
+                </div>
+            </div>
+        </div>
+      </footer>
+      <div class="text-center text-white copyright py-4">
+        <div class="container"><small>Copyright ©&nbsp;Planner 2022</small></div>
+      </div>
+
+    <script src="/Planner/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+<script>
+  function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+  return null;
+  }
+</script>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+</script>
+<script>
+    function logoutfunction(){
+    setCookie("username_user","",1);
+    setCookie("password_user","",1);
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+    }
+</script>
+<script>
+    window.onload = (event) => {
+        $.ajax({
+  
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                "username": getCookie("username_user"),
+                "password": getCookie("password_user")
+            },
+            success: function (data) {
+                 if(data.is_customer == true){
+                     console.log(data.is_customer)
+                 }else if(data.is_vendor == true){
+                  window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
+                 }else if(data.is_customer == false && data.is_vendor == false  ){
+                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
+                 }
+            },
+            error: function (data) {
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+            }
+        })
+        console.log(getCookie("name_item"))
+        $.ajax({
+                  url: "http://localhost:8000/item/recommended?itemstr="+getCookie("name_item"),
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                    var counter = 0;
+                    var cardid = 0
+                      $.each(response, function (key, value) { 
+                        images = value.images[0].item_image.split(":5500");
+                        imagesurl = "http://127.0.0.1:8000"+images[0];
+                        str = value.about;
+                        str = value.about;
+                        if(str.length > 200) str = str.substring(0,200) + "...."; 
+                        if (counter == 0)
+                        {       
+                            cardid++;
+                            $("#recommendetcards").append("<div class='carousel-item active' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
+                            $("#"+cardid+"cardid").append("<div class='card'>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
+                                                        <div class='card-body'>\
+                                                        <h5 class='card-title'>"+value.name+"</h5>\
+                                                        <p class='card-text'>"+str+"</p>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        </div>\
+                                                        </a>\
+                                                        </div>");
+
+                        }
+                        else if(counter%3 == 0)
+                        {
+                        cardid++;
+                        $("#recommendetcards").append("<div class='carousel-item' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
+                        $("#"+cardid+"cardid").append("<div class='card' >\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
+                                                        <div class='card-body'>\
+                                                        <h5 class='card-title'>"+value.name+"</h5>\
+                                                        <p class='card-text'>"+str+"</p>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        </div>\
+                                                        </a>\
+                                                        </div>");
+                        }else
+                        {
+                            $("#"+cardid+"cardid").append("<div class='card'>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
+                                                        <div class='card-body'>\
+                                                        <h5 class='card-title'>"+value.name+"</h5>\
+                                                        <p class='card-text'>"+str+"</p>\
+                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        </div>\
+                                                        </a>\
+                                                        </div>");
+                        }
+                        counter++;
+                      })
+                      
+                  }
+                })
+
+
+  };
+  </script>
+<script type="text/javascript">
+
+</script>
+<script>
+    $(document).ready(function () {
+        var queryString = new Array();
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+        if (queryString["id"] != null) {
+            var data = "";
+            // $("#textusername").html(data);
+        }
+        var url = "http://127.0.0.1:8000/item/items/"+ queryString["id"]+"/";
+        console.log(url);
+                $.ajax({
+                  url: url, 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                        var counter  = 1;
+                      $.each(response, function (key, value) { 
+                        if(counter == 2)
+                        {
+                            
+                            $("#venueName").html("<b>"+value+"</b>");
+                            $("#aboutname").html("<b>About "+value+"</b>");
+                            setCookie("name_item",value,5);
+                            
+                        }
+
+                        else if(counter == 3)
+                        {
+                            $("#informationvenue").append("<li>Location: "+value+"</li>");
+                            $("#informationvenue").append("<li style='color: #666;'>/</li>");
+
+                        }
+                        else if(counter == 5)
+                        {
+                            $("#informationvenue").append("<li>\
+                                                <a id='phoneHyperLink' class='' rel='nofollow' href='tel:"+value+"' data-providernum='38338' data-adtype='Platinum1' style='text-decoration: none;'>"+value+"</a>\
+                                                </li>\
+                                                <li style='color: #666;'>/</li>");
+                        }
+                        else if(counter == 6)
+                        {
+                            $("#informationvenue").append("<li>\
+                                                <a rel=\"nofollow\" href=\""+value+"\" target=\"blank\" class=\"\" onclick=\"IncrementProviderCounter('/hikurangi/provider/WebService.asmx/IncrementProviderCounter', 38338, 'PrUrlClick', 'false');\" style=\"text-decoration: none;\">\
+                                                 "+value+"\
+                                                </a>\
+                                                </li>\
+                                                <li style='color: #666;'>/</li>");
+                        }
+                        else if(counter == 7)
+                        {
+                            $("#aboutdiscription").html("<b>"+value+"</b>");
+                            
+                        }
+                        else if(counter == 8)
+                        {   
+                            $("#priceday").html("$<b>"+value+"</b>");
+                        }
+                        else if(counter == 11)
+                        {
+                            for( i in value){
+                                $("#venuelist").append("<li>"+value[i].type_name+"   </li>");
+                            }
+
+                        }
+                        else if(counter == 12)
+                        {
+                            for( i in value){
+                                if(i == 0)
+                                {
+                                    
+                                    $("#slideid").append("<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='0' class='active' aria-current='true' aria-label='Slide 1'></button>");
+                                    $("#imagesvenu").append("<div class='carousel-item active'>\
+                                    <img src='"+value[i].item_image+"' class='d-block w-100' alt='...'>\
+                                    </div>");
+                                }
+                                else
+                                {
+                                $("#slideid").append("<button type='button' data-bs-target='#carouselExampleIndicators' data-bs-slide-to='"+i+"' aria-label='Slide "+(i+1)+"'></button>");
+                                $("#imagesvenu").append("<div class='carousel-item'>\
+                                                        <img src='"+value[i].item_image+"' class='d-block w-100' alt='...'>\
+                                                        </div>");
+                                }
+                            }
+                        }
+                        else if(counter == 13)
+                        {
+                            for( i in value){
+                                $("#amenitieslist").append("<li>"+value[i].amenities_name+"</li>");
+                            }
+                        }
+                        else if(counter == 15)
+                        {
+                            $("#informationvenue").append("<li>Capacity: "+value+" people</li>");
+
+                        }
+                        counter++;
+                      })
+                  }
+                })
+              });
+  </script>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Login</title>
+    <link rel="stylesheet" href="/Planner/assets2/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap">
+    <link rel="stylesheet" href="/Planner/assets2/fonts/fontawesome-all.min.css">
+
+</head>
+
+<body class="bg-gradient" style="background-color: #2C3E50;">
+    <div class="container p-5">
+        <div class="row justify-content-center">
+            <div class="col-md-9 col-lg-12 col-xl-10">
+                <div class="card shadow-lg o-hidden border-0 my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-flex">
+                                <div class="flex-grow-1 bg-login-image" style="background-image: url(/Planner/assets/images/slide-3.jpg);"></div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">Welcome Back!</h4>
+                                    </div>
+                                    <form class="user" id="form" >
+                                        <div class="mb-3"><input class="form-control form-control-user" type="text" id="username" aria-describedby="emailHelp" placeholder="Enter Email Address *" name="username"></div>
+                                        <div class="mb-3"><input class="form-control form-control-user" type="password" id="exampleInputPassword" placeholder="Password *" name="password"></div>
+                                        <div class="mb-3">
+                                            <div class="custom-control custom-checkbox small">
+                                                <div class="form-check"><input class="form-check-input custom-control-input" type="checkbox" id="formCheck-1"><label class="form-check-label custom-control-label" for="formCheck-1">Remember Me</label></div>
+                                            </div>
+                                        </div><button class="btn btn d-block btn-user w-100" type="submit" style="background-color: #2C3E50; font-weight: 900; color: aliceblue;">Login</button>
+                                        <hr>
+                                    </form>
+                                    <div class="text-center"><a class="small" href="forgot-password.html">Forgot Password?</a></div>
+                                    <div class="text-center"><a class="small" href="register.html">Create an Account!</a></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/Planner/assets2/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/Planner/assets2/js/bs-init.js"></script>
+    <script src="/Planner/assets2/js/theme.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+</body>
+
+<script>
+    $('#form').submit(function (e) {
+        e.preventDefault();
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: $(this).serialize(),
+            success: function (data) {
+                 if(data.is_customer == true){
+                    setCookie("username_user",document.getElementById("username").value,5);
+                    setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+                     console.log(data.is_customer)
+                 }else if(data.is_vendor == true){
+                    setCookie("username_user",document.getElementById("username").value,5);
+                    setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
+                     window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+                 }else if(data.is_customer == false && data.is_vendor == false  ){
+                    setCookie("username_user",document.getElementById("username").value,5);
+                    setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
+                     window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+                 }
+
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        })
+    });
+</script>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+</script>
+<script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+</script>
+<script>
+    window.onload = (event) => {
+        $.ajax({
+
+            type: 'POST',
+            url: 'http://127.0.0.1:8086/api/login',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                "username": getCookie("username_user"),
+                "password": getCookie("password_user")
+            },
+            success: function (data) {
+                 if(data.is_customer == true){
+                   window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+                     console.log(data.is_customer)
+                 }else if(data.is_vendor == true){
+                     window.location.replace("../vendorPage/vendorDashboard.html");
+                 }else if(data.is_customer == false && data.is_vendor == false  ){
+                     window.location.replace("../adminPage/adminDashboard.html");
+                 }
+            },
+            error: function (data) {
+                console.log(data);
+            }
+        })
+};
+</script>
+</html>

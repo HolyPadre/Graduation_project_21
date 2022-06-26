@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Venues</title>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">    <!----===== Iconscout CSS ===== -->
+
+    <link rel="stylesheet" href="/Planner/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/Planner/pages/customerPage/main.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/Planner/assets/fonts/font-awesome.min.css">
+    <link rel="stylesheet" href="main.css">
+
+
+</head>
+
+<body id="page-top" data-bs-spy="scroll" data-bs-target="#mainNav" data-bs-offset="72">
+    <nav class="navbar navbar-light navbar-expand-lg fixed-top bg-secondary text-uppercase" id="mainNav">
+        <div class="container"><a class="navbar-brand" href="#page-top"> <span style="color: #20c997;">P</span>lanner Venues</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="">Home</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Vendors</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">My Events</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt">Log Out</i></a></li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+   
+   
+
+    <section id="venuesSection">
+        <div class="conatainer p-5">
+            <div style=" position: relative;">
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal1">GUESTS</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal2">TYPES</button>
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                      SORT 
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                      <li><a class="dropdown-item" href="#" onclick="lowhigh()">Price(Low-High)</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="highlow()" >Price(High-Low)</a></li>
+                      <li><a class="dropdown-item" href="#" onclick="ratefunction()">Most Rated</a></li>
+                    </ul>
+                    
+                    <div style="float: right;">               
+                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal3">Find Venue <span><i class="fa fa-search"></i></span></button>
+                    </div>
+                    
+                  </div>        
+                  
+                
+            <hr style="border-color: #2C3E50; ">
+        </div>
+        <h2 style="font-weight: 300; color:#666; text-align: center;">Venues near <span id="venueLocation"><a href="" style="text-decoration: none;" id="locationtitle"></a></span> </h2>
+            <div class="container p-5">
+                <div class="row" id="venusetable">
+                <div class="row">
+                    <div class="container">
+                        <nav aria-label="...">
+                            <ul class="pagination">
+                              <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">1</a></li>
+                              <li class="page-item active" aria-current="page">
+                                <a class="page-link" href="#">2</a>
+                              </li>
+                              <li class="page-item"><a class="page-link" href="#">3</a></li>
+                              <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                              </li>
+                            </ul>
+                          </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- end latest news -->
+                        <!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;">Attendees</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <span style="size: 25px; font-weight: 900; ">Total Attendees:</span><input type="text" class="form-control" id="inputNum"></span><span id="rangeValue">0</span>
+                        <Input class="range" type="range" name="" value="0" min="0" max="1000" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+                        
+                    </div>
+                    <script type="text/javascript">
+                        function rangeSlide(value) {
+                            document.getElementById('rangeValue').innerHTML = value;
+                            console.log("asdasd");
+                        }
+                    </script>
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="sizeguests()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+                        <!-- Modal -->
+<div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;">Attendees</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <span style="size: 25px; font-weight: 900; ">Total Attendees:</span><input type="text" class="form-control" id="inputNum"></span><span id="rangeValue">0</span>
+                        <Input class="range" type="range" name="" value="0" min="0" max="1000" onChange="rangeSlide(this.value)" onmousemove="rangeSlide(this.value)"></Input>
+                        
+                    </div>
+                    <script type="text/javascript">
+                        function rangeSlide(value) {
+                            document.getElementById('rangeValue').innerHTML = value;
+                        }
+                    </script>
+               </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h4 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;">Find a Venue</h4>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="container">
+                                        <div class="row">
+                                            <span style="size: 25px; font-weight: 900; ">Search By Venue Name:</span><br>
+                                            <input type="text" class="form-control" id="inputName" placeholder="enter venue name *">
+                                       </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Search</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+
+                           <!-- Modal -->
+                            <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                    <h4 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;">Types</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container">
+                                            <div class="row" id = "typeschecks">
+                                                <span style="size: 25px; font-weight: 900; ">Venue Types:</span><hr>
+                                           </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="myFunction()">Save</button>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+    </section>
+  
+   
+ 
+    <footer class="text-center footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase mb-4">Location</h4>
+                    <p>2215 Palestine Ramallah<br>Birzeit, MO 65243</p>
+                </div>
+                <div class="col-md-4 mb-5 mb-lg-0">
+                    <h4 class="text-uppercase">Find Us On</h4>
+                    <ul class="list-inline">
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-facebook fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-linkedin fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-twitter fa-fw"></i></a></li>
+                        <li class="list-inline-item"><a class="btn btn-outline-light text-center btn-social rounded-circle" role="button" href="#"><i class="fa fa-github fa-fw"></i></a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h4 class="text-uppercase mb-4">About Planner</h4>
+                    <p class="lead mb-0"><span>Planner created by pairing together our passion for business and events.&nbsp;</span></p>
+                </div>
+            </div>
+        </div>
+      </footer>
+      <div class="text-center text-white copyright py-4">
+        <div class="container"><small>Copyright ©&nbsp;Planner 2022</small></div>
+      </div>
+    <script src="/Planner/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</body>
+<script>
+  function getCookie(name) {
+  var nameEQ = name + "=";
+  var ca = document.cookie.split(';');
+  for(var i=0;i < ca.length;i++) {
+      var c = ca[i];
+      while (c.charAt(0)==' ') c = c.substring(1,c.length);
+      if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+      }
+  return null;
+  }
+</script>
+<script>
+  window.onload = (event) => {
+      $.ajax({
+
+          type: 'POST',
+          url: 'http://127.0.0.1:8086/api/login',
+          crossDomain: true,
+          dataType: 'json',
+          data: {
+              "username": getCookie("username_user"),
+              "password": getCookie("password_user")
+          },
+          success: function (data) {
+               if(data.is_customer == true){
+                   console.log(data.is_customer)
+               }else if(data.is_vendor == true){
+                window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
+               }else if(data.is_customer == false && data.is_vendor == false  ){
+                window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
+               }
+          },
+          error: function (data) {
+            window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+          }
+      })
+};
+</script>
+<script>
+  $(document).ready(function () {
+      var queryString = new Array();
+          if (queryString.length == 0) {
+              if (window.location.search.split('?').length > 1) {
+                  var params = window.location.search.split('?')[1].split('&');
+                  for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+        console.log(queryString["eventname"]);
+        console.log(queryString["datetext"]);
+        console.log(queryString["type"]);
+        console.log(queryString["location"]);
+        $("#locationtitle").html("<b>"+queryString["location"]+"</b>");
+        $("#venusetable").html("<div class='row'>\
+                              <div class='container'>\
+                              <nav aria-label='...'>\
+                              <ul class='pagination'>\
+                              <li class='page-item disabled'>\
+                              <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                              </li>\
+                              <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                              <li class='page-item active' aria-current='page'>\
+                                <a class='page-link' href='#'>2</a>\
+                              </li>\
+                              <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                              <li class='page-item'>\
+                                <a class='page-link' href='#'>Next</a>\
+                              </li>\
+                            </ul>\
+                          </nav>\
+                    </div>\
+                </div>")
+      $.ajax({
+                  url: "http://127.0.0.1:8000/item/types_filter?id="+queryString["type"]+"&location="+queryString["location"], 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                        images = value.images[0].item_image.split(":5500");
+                        imagesurl = "http://127.0.0.1:8000"+images[0];
+                        str = value.about;
+                        if(str.length > 200) str = str.substring(0,200) + "...."; 
+                        $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                                <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                <div class='card' style='width: 25rem;'>\
+                                                <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                                <div class='card-body'>\
+                                                <h5 class='card-title'>"+value.name+"</h5>\
+                                                <p class='card-text' style='color: black;'>"+str+"</p>\
+                                                <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                                </div>\
+                                                </div>\
+                                                </a>\
+                                                </div>");
+                      })
+                      
+                  }
+                })
+              $.ajax({
+                url: "http://127.0.0.1:8000/item/types", 
+                type: "GET",          
+                cache: true, 
+                success: function(response){
+                    $.each(response, function (key, value) { 
+                      if(value.id == queryString["type"])
+                      {
+                        $('#typeschecks').append(   "<div class='col-md-6'>\
+                                                    <div class='form-check'>\
+                                                    <input class='form-check-input' type='checkbox' value='' id='"+value.id+"check'>\
+                                                    <label class='form-check-label' for='flexCheckDefault'>\
+                                                    "+value.type_name+"\
+                                                    </label>\
+                                                    </div>\
+                                                    </div>");
+
+                        document.getElementById(value.id+"check").checked = true;
+                        
+                      }
+                      else
+                      {
+                        $('#typeschecks').append(   "<div class='col-md-6'>\
+                                                    <div class='form-check'>\
+                                                    <input class='form-check-input' type='checkbox' value='' id='"+value.id+"check'>\
+                                                    <label class='form-check-label' for='flexCheckDefault'>\
+                                                    "+value.type_name+"\
+                                                    </label>\
+                                                    </div>\
+                                                    </div>");
+                      }
+                    })
+                }
+              })
+            });
+</script>
+<script>
+  function myFunction() {
+    var str = "";
+      for(let i  = 1; i < 47; i++)
+      {
+      if (document.getElementById(i+'check').checked) {
+          if(str == "")
+          {
+            str+=i;
+          }
+          else
+          {
+            str+=","+i
+          }
+        }
+      }
+      var queryString = new Array();
+          if (queryString.length == 0) {
+              if (window.location.search.split('?').length > 1) {
+                  var params = window.location.search.split('?')[1].split('&');
+                  for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+      $("#venusetable").html("<div class='row'>\
+                              <div class='container'>\
+                              <nav aria-label='...'>\
+                              <ul class='pagination'>\
+                              <li class='page-item disabled'>\
+                              <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                              </li>\
+                              <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                              <li class='page-item active' aria-current='page'>\
+                                <a class='page-link' href='#'>2</a>\
+                              </li>\
+                              <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                              <li class='page-item'>\
+                                <a class='page-link' href='#'>Next</a>\
+                              </li>\
+                            </ul>\
+                          </nav>\
+                    </div>\
+                </div>")
+      $.ajax({
+                  url: "http://127.0.0.1:8000/item/types_filter?id="+str+"&location="+queryString["location"], 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                        images = value.images[0].item_image.split(":5500");
+                        imagesurl = "http://127.0.0.1:8000"+images[0];
+                        str = value.about;
+                        if(str.length > 200) str = str.substring(0,200) + "...."; 
+                        $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                                <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                <div class='card' style='width: 25rem;'>\
+                                                <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                                <div class='card-body'>\
+                                                <h5 class='card-title'>"+value.name+"</h5>\
+                                                <p class='card-text' style='color: black;'>"+str+"</p>\
+                                                <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                                </div>\
+                                                </div>\
+                                                </a>\
+                                                </div>");
+                      })
+                      
+                  }
+                })
+  }
+  </script>
+<script>
+    function ratefunction() {
+    var str = "";
+      for(let i  = 1; i < 47; i++)
+      {
+      if (document.getElementById(i+'check').checked) {
+          if(str == "")
+          {
+            str+=i;
+          }
+          else
+          {
+            str+=","+i
+          }
+        }
+      }
+      var queryString = new Array();
+          if (queryString.length == 0) {
+              if (window.location.search.split('?').length > 1) {
+                  var params = window.location.search.split('?')[1].split('&');
+                  for (var i = 0; i < params.length; i++) {
+                    var key = params[i].split('=')[0];
+                    var value = decodeURIComponent(params[i].split('=')[1]);
+                    queryString[key] = value;
+                }
+            }
+        }
+      $("#venusetable").html("<div class='row'>\
+                              <div class='container'>\
+                              <nav aria-label='...'>\
+                              <ul class='pagination'>\
+                              <li class='page-item disabled'>\
+                              <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                              </li>\
+                              <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                              <li class='page-item active' aria-current='page'>\
+                                <a class='page-link' href='#'>2</a>\
+                              </li>\
+                              <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                              <li class='page-item'>\
+                                <a class='page-link' href='#'>Next</a>\
+                              </li>\
+                            </ul>\
+                          </nav>\
+                    </div>\
+                </div>")
+      $.ajax({
+                  url: "http://127.0.0.1:8000/item/mostRated?type="+str+"&location="+queryString["location"], 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                        images = value.images[0].item_image.split(":5500");
+                        imagesurl = "http://127.0.0.1:8000"+images[0];
+                        str = value.about;
+                        if(str.length > 200) str = str.substring(0,200) + "...."; 
+                        $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                                <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                <div class='card' style='width: 25rem;'>\
+                                                <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                                <div class='card-body'>\
+                                                <h5 class='card-title'>"+value.name+"</h5>\
+                                                <p class='card-text' style='color: black;'>"+str+"</p>\
+                                                <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                                </div>\
+                                                </div>\
+                                                </a>\
+                                                </div>");
+                      })
+                      
+                  }
+                })
+  }
+</script>
+<script>
+  function highlow() {
+  var str = "";
+    for(let i  = 1; i < 47; i++)
+    {
+    if (document.getElementById(i+'check').checked) {
+        if(str == "")
+        {
+          str+=i;
+        }
+        else
+        {
+          str+=","+i
+        }
+      }
+    }
+    var queryString = new Array();
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                  var key = params[i].split('=')[0];
+                  var value = decodeURIComponent(params[i].split('=')[1]);
+                  queryString[key] = value;
+              }
+          }
+      }
+    $("#venusetable").html("<div class='row'>\
+                            <div class='container'>\
+                            <nav aria-label='...'>\
+                            <ul class='pagination'>\
+                            <li class='page-item disabled'>\
+                            <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                            <li class='page-item active' aria-current='page'>\
+                              <a class='page-link' href='#'>2</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                            <li class='page-item'>\
+                              <a class='page-link' href='#'>Next</a>\
+                            </li>\
+                          </ul>\
+                        </nav>\
+                  </div>\
+              </div>")
+    $.ajax({
+                url: "http://127.0.0.1:8000/item/price/acs?type="+str+"&location="+queryString["location"], 
+                type: "GET",          
+                cache: true, 
+                success: function(response){
+                    $.each(response, function (key, value) { 
+                      images = value.images[0].item_image.split(":5500");
+                      imagesurl = "http://127.0.0.1:8000"+images[0];
+                      str = value.about;
+                      if(str.length > 200) str = str.substring(0,200) + "...."; 
+                      $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                              <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                              <div class='card' style='width: 25rem;'>\
+                                              <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                              <div class='card-body'>\
+                                              <h5 class='card-title'>"+value.name+"</h5>\
+                                              <p class='card-text' style='color: black;'>"+str+"</p>\
+                                              <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                              </div>\
+                                              </div>\
+                                              </a>\
+                                              </div>");
+                    })
+                    
+                }
+              })
+}
+</script>
+<script>
+  function lowhigh() {
+  var str = "";
+    for(let i  = 1; i < 47; i++)
+    {
+    if (document.getElementById(i+'check').checked) {
+        if(str == "")
+        {
+          str+=i;
+        }
+        else
+        {
+          str+=","+i
+        }
+      }
+    }
+    var queryString = new Array();
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                  var key = params[i].split('=')[0];
+                  var value = decodeURIComponent(params[i].split('=')[1]);
+                  queryString[key] = value;
+              }
+          }
+      }
+    $("#venusetable").html("<div class='row'>\
+                            <div class='container'>\
+                            <nav aria-label='...'>\
+                            <ul class='pagination'>\
+                            <li class='page-item disabled'>\
+                            <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                            <li class='page-item active' aria-current='page'>\
+                              <a class='page-link' href='#'>2</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                            <li class='page-item'>\
+                              <a class='page-link' href='#'>Next</a>\
+                            </li>\
+                          </ul>\
+                        </nav>\
+                  </div>\
+              </div>")
+    $.ajax({
+                url: "http://127.0.0.1:8000/item/price/desc?type="+str+"&location="+queryString["location"], 
+                type: "GET",          
+                cache: true, 
+                success: function(response){
+                    $.each(response, function (key, value) { 
+                      images = value.images[0].item_image.split(":5500");
+                      imagesurl = "http://127.0.0.1:8000"+images[0];
+                      str = value.about;
+                      if(str.length > 200) str = str.substring(0,200) + "...."; 
+                      $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                              <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                              <div class='card' style='width: 25rem;'>\
+                                              <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                              <div class='card-body'>\
+                                              <h5 class='card-title'>"+value.name+"</h5>\
+                                              <p class='card-text' style='color: black;'>"+str+"</p>\
+                                              <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                              </div>\
+                                              </div>\
+                                              </a>\
+                                              </div>");
+                    })
+                    
+                }
+              })
+}
+</script>
+<script>
+
+  function sizeguests()
+  {
+    // console.log(document.getElementById('rangeValue').innerText);
+    var str = "";
+    for(let i  = 1; i < 47; i++)
+    {
+    if (document.getElementById(i+'check').checked) {
+        if(str == "")
+        {
+          str+=i;
+        }
+        else
+        {
+          str+=","+i
+        }
+      }
+    }
+    var queryString = new Array();
+        if (queryString.length == 0) {
+            if (window.location.search.split('?').length > 1) {
+                var params = window.location.search.split('?')[1].split('&');
+                for (var i = 0; i < params.length; i++) {
+                  var key = params[i].split('=')[0];
+                  var value = decodeURIComponent(params[i].split('=')[1]);
+                  queryString[key] = value;
+              }
+          }
+      }
+    $("#venusetable").html("<div class='row'>\
+                            <div class='container'>\
+                            <nav aria-label='...'>\
+                            <ul class='pagination'>\
+                            <li class='page-item disabled'>\
+                            <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                            <li class='page-item active' aria-current='page'>\
+                              <a class='page-link' href='#'>2</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                            <li class='page-item'>\
+                              <a class='page-link' href='#'>Next</a>\
+                            </li>\
+                          </ul>\
+                        </nav>\
+                  </div>\
+              </div>")
+    $.ajax({
+                url: "http://127.0.0.1:8000/item/capicty?type="+str+"&location="+queryString["location"]+"&size="+document.getElementById('rangeValue').innerText, 
+                type: "GET",          
+                cache: true, 
+                success: function(response){
+                    $.each(response, function (key, value) { 
+                      images = value.images[0].item_image.split(":5500");
+                      imagesurl = "http://127.0.0.1:8000"+images[0];
+                      str = value.about;
+                      if(str.length > 200) str = str.substring(0,200) + "...."; 
+                      $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                              <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                              <div class='card' style='width: 25rem;'>\
+                                              <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                              <div class='card-body'>\
+                                              <h5 class='card-title'>"+value.name+"</h5>\
+                                              <p class='card-text' style='color: black;'>"+str+"</p>\
+                                              <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                              </div>\
+                                              </div>\
+                                              </a>\
+                                              </div>");
+                    })
+                    
+                }
+              })
+
+  }
+</script>
+<script>
+  window.onload = (event) => {
+      $.ajax({
+
+          type: 'POST',
+          url: 'http://127.0.0.1:8086/api/login',
+          crossDomain: true,
+          dataType: 'json',
+          data: {
+              "username": getCookie("username_user"),
+              "password": getCookie("password_user")
+          },
+          success: function (data) {
+               if(data.is_customer == true){
+                   console.log(data.is_customer)
+               }else if(data.is_vendor == true){
+                   window.location.replace("../vendorPage/vendorDashboard.html");
+               }else if(data.is_manager == true  ){
+                window.location.replace("../adminPage/adminDashboard.html");
+               }
+          },
+          error: function (data) {
+              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+          }
+      })
+};
+</script>
+<script>
+  function setCookie(name,value,days) {
+  var expires = "";
+  if (days) {
+      var date = new Date();
+      date.setTime(date.getTime() + (days*24*60*60*1000));
+      expires = "; expires=" + date.toUTCString();
+      }
+  document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+  }
+</script>
+<script>
+  function logoutfunction(){
+  setCookie("username_user","",1);
+  setCookie("password_user","",1);
+  window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+  }
+</script>
+</html>
