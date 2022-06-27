@@ -54,4 +54,5 @@ class resevedTable(models.Model):
     reserved_date = models.DateTimeField(null=False)
     time = models.ForeignKey(availability_date, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    event = models.ForeignKey(event,on_delete=models.CASCADE,default=1)
 
