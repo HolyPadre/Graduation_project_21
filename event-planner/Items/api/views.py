@@ -1,9 +1,14 @@
+import os
+
+import pandas as pd
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
 
-from ..models import Item, ItemType,resevedTable
+from ..models import Item, ItemType, resevedTable
 from .ItemSerializer import ItemSerializer, TypeSerializer, ReservedSerializer, ReserveddSerializer
 
 
@@ -222,8 +227,6 @@ class ItemViewSet(viewsets.ModelViewSet):
         return items
 
 
-
-
 @api_view(['POST'])
 def add_request(request):
     requests = ReserveddSerializer(data=request.data)
@@ -232,6 +235,56 @@ def add_request(request):
         return Response(requests.data, status=HTTP_201_CREATED)
 
 
+def important_features(datasets):
+    data = datasets.copy()
+    for i in range(0, datasets.shape[0]):
+        data["imp"] = data["name"].apply(str) + " " + data["location"].apply(str) + " " + data["price"].apply(
+            str) + " " + data["rate"].apply(str) + " " + data["types"].apply(str) + " " + data["amenities"].apply(str)
+    return data
+
+
+@api_view(['GET'])
+def all_Recommended_Item(request):
+    itemstr = request.GET.get('itemstr')
+    csv_filename = os.path.join(os.path.dirname(__file__), 'dataset.csv')
+
+    data = pd.read_csv(csv_filename)
+    vec = TfidfVectorizer()
+
+    vecs = vec.fit_transform(data["imp"].apply(lambda x: np.str_(x)))
+
+    vecs.shape
+
+    sim = cosine_similarity(vecs)
+
+    sim.shape
+
+    def recommend(imp):
+        venue_id = data[data.name == imp]["ids"].values[0]
+        scores = list(enumerate(sim[venue_id]))
+        sorted_scores = sorted(scores, key=lambda x: x[1], reverse=True)
+        sorted_scores = sorted_scores[0:]
+        venues = [data[venues[0] == data["ids"]]["id"].values[0] for venues in sorted_scores]
+        return venues
+
+    lst = recommend(itemstr)
+
+    # lst = recommend("Cruise Newport Beach-Yacht Rentals Jericho 30.0 5 id: 2, type_name: Concert, id: 8, type_name: Conference id: 106, amenities_name: Ice chest, id: 459, amenities_name: Selfie Room, id: 477, amenities_name: Many different and flexible space configurations available with our floor plan to accommodate all kinds of events, large and small, outdoor patio with music and lights and inside areas that give us a lot of options., id: 485, amenities_name: Kosher available, id: 615, amenities_name: Worldclass nightlife resources at your disposal., id: 687, amenities_name: HalfBasketball Court")
+    lst = lst[1:20]
+    items = Item.objects.filter(id__in=lst)
+    serializer = ItemSerializer(items, many=True)
+    return Response(serializer.data)
 
 
 
+@api_view(['PUT'])
+def updateAvalibleTime(request, pk):
+
+    reserved = resevedTable.objects.get(pk=pk)
+    serializer = ReserveddSerializer(instance=reserved, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.data)
