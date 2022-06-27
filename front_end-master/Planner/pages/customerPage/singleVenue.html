@@ -56,7 +56,7 @@
             </div>
             <div class="row p-5">
                 <div style="clear: both; padding: 10px 0;">
-                    <input type="button" class="btn btn-secondary btn-lg" style="float: left; font-size: 18px; height: 44px; width: 250px;" data-bs-toggle="modal" data-bs-target="#exampleModal1" title="Request Pricing" value="Request Pricing" onclick="timesadd()">
+                    <input type="button" class="btn btn-secondary btn-lg" style="float: left; font-size: 18px; height: 44px; width: 250px;" data-bs-toggle="modal" data-bs-target="#exampleModal1" title="Request Pricing" value="Request Pricing">
 
                         <div style="float: left; padding-left: 25px;" class="eve-price-highlight">
                             <div class="fa fa-bolt" style="color: #FFCC00; font-size: 20px; padding-top: 10px;" aria-hidden="true"></div> 
@@ -497,7 +497,11 @@
                   success: function(response){
                         var counter  = 1;
                       $.each(response, function (key, value) { 
-                        if(counter == 2)
+                        if(counter == 1)
+                        {
+                            setCookie("item_id",value,2);
+                        }
+                        else if(counter == 2)
                         {
                             
                             $("#venueName").html("<b>"+value+"</b>");
@@ -649,7 +653,26 @@
 <script>
 function sendrequest(){
     sel = document.getElementById("timeslots")
-    alert(sel.value)
+    alert(getCookie("event_id"))
+    $.ajax({type: 'POST',
+            url: 'http://localhost:8086/item/request/create',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                    "status": false,
+                    "time": sel.value,
+                    "reserved_date": getCookie("data_event"),
+                    "item": getCookie("item_id"),
+                    "event": getCookie("event_id"),
+    },
+            success: function (data) {
+                alert("Your request is under review!")
+
+            },
+            error: function (data) {
+                console.log(data);
+            }
+            })
 
 }
 

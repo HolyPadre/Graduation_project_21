@@ -176,11 +176,8 @@
       sel2 = document.getElementById("locationcity")
       var eventname = document.getElementById("inputName4").value;
       var datetext = document.getElementById("inputDate").value;
-      alert(eventname)
-      alert(sel.options[sel.selectedIndex].text)
-      alert(sel2.options[sel2.selectedIndex].text)
-      alert(datetext)
-      alert(getCookie("user_id"))
+      var typename = sel.options[sel.selectedIndex].text;
+      var locationname = sel2.options[sel2.selectedIndex].text;
 
 
       $.ajax({
@@ -191,25 +188,22 @@
             dataType: 'json',
             data: {
               "name": eventname,
-              "type": sel.options[sel.selectedIndex].text,
-              "location": sel2.options[sel2.selectedIndex].text,
+              "type": typename,
+              "location": locationname,
               "Date": datetext,
-              "user": getCookie("id_user")
+              "user": getCookie("user_id"),
 
             },
             success: function (data) {
-                alert(data.id)
-
-              
-
-
+                alert(data.id);
+                setCookie("event_id",data.id,"2");
+                setCookie("data_event",datetext,2);
+                window.location.href = "/Planner/pages/customerPage/venues.html?eventname="+eventname+"&datetext="+datetext+"&type="+sel.value+"&location="+sel2.options[sel2.selectedIndex].text;
             },
             error: function (data) {
                 console.log(data);
             }
             })
-      setCookie("data_event",datetext,2);
-      // window.location.href = "/Planner/pages/customerPage/venues.html?eventname="+eventname+"&datetext="+datetext+"&type="+sel.value+"&location="+sel2.options[sel2.selectedIndex].text;
       
   };
 </script>
