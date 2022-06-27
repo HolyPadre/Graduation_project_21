@@ -7,28 +7,135 @@ from .ItemSerializer import ItemSerializer, TypeSerializer
 
 
 @api_view(['GET'])
-def all_type(request):
-    types = ItemType.objects.values('type_name').distinct()
-    serializer = TypeSerializer(types, many=True)
-    if types:
+def all_item_capisty(request):
+    type = request.query_params.get('type', None).split(',')
+
+    location = request.GET.getlist('location')
+    size = request.GET.get('size')
+    print(type)
+    print(location)
+
+    items = Item.objects.all().filter(location__in=location, types__in=type, size__gte=size).distinct().order_by(
+        '-size')
+    serializer = ItemSerializer(items, many=True)
+
+    if items:
         return Response(serializer.data)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
-def all_request(request):
-    # checking for the parameters from the URL
-    requests = resevedTable.objects.all()
-    serializer = ItemSerializer(requests, many=True)
+def all_item_Most_rated(request):
+    type = request.query_params.get('type', None).split(',')
+    location = request.GET.getlist('location')
+    print(type)
+    print(location)
 
-    # if there is something in items else raise error
-    if requests:
+    items = Item.objects.all().filter(location__in=location, types__in=type).distinct().order_by('-rate')
+    serializer = ItemSerializer(items, many=True)
+
+    if items:
         return Response(serializer.data)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['GET'])
+def all_item_by_price_DESC(request):
+    type = request.query_params.get('type', None).split(',')
+    location = request.GET.getlist('location')
+    print(type)
+    print(location)
+
+    items = Item.objects.all().filter(location__in=location, types__in=type).distinct().order_by('-price')
+    serializer = ItemSerializer(items, many=True)
+
+    if items:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def all_item_by_price_ASC(request):
+    type_ids = request.query_params.get('type', None).split(',')
+    location = request.GET.getlist('location')
+    print(type)
+    print(location)
+    items = Item.objects.all().filter(location__in=location, types__in=type_ids).distinct().order_by('price')
+    serializer = ItemSerializer(items, many=True)
+
+    if items:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def returnAvalibleTime(request, pk):
+    date = request.GET.get('date')
+    reserved = resevedTable.objects.all().filter(item=pk, reserved_date=date).distinct()
+    serializer = ReservedSerializer(reserved, many=True)
+
+    if reserved:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def all_item_has_type(request):
+    type_ids = request.query_params.get('id', None).split(',')
+    location = request.GET.getlist('location')
+    items = Item.objects.all().filter(types__in=type_ids, location__in=location).distinct()
+    serializer = ItemSerializer(items, many=True)
+
+    # if there is something in items else raise error
+    if items:
+        return Response(serializer.data)
+    else:
+        return Response(serializer.error_messages)
+
+
+@api_view(['GET'])
+def all_item_by_name(request):
+    name = request.GET.get('name')
+    items = Item.objects.all().filter(name=name).distinct()
+    serializer = ItemSerializer(items, many=True)
+
+    # if there is something in items else raise error
+    if items:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def all_item_by_location_and_type(request):
+    type = request.GET.getlist('type')
+    location = request.GET.getlist('location')
+    print(type)
+    print(location)
+
+    items = Item.objects.all().filter(location__in=location, types__in=type).distinct()
+    serializer = ItemSerializer(items, many=True)
+
+    # if there is something in items else raise error
+    if items:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def all_type(request):
+    types = ItemType.objects.all()
+    serializer = TypeSerializer(types, many=True)
+    if types:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 @api_view(['GET'])
@@ -42,6 +149,15 @@ def all_items(request):
         return Response(serializer.data)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+class ItemViewSet(viewsets.ModelViewSet):
+    serializer_class = ItemSerializer
+
+    def get_queryset(self):
+        items = Item.objects.all()
+        return items
+
 
 # @api_view(['GET'])
 # class ItemViewSet(viewsets.ModelViewSet):
