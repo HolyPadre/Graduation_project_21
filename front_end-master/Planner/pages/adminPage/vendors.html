@@ -131,7 +131,8 @@
               type: 'GET',
               headers: {"Authorization":"Token "+getCookie("token_user")},
               success: function (data) {
-                  
+                $("#admin-name").html("<b id>Admin: "+data.username+"</b>");
+
           },
           error: function (data) {
           }
