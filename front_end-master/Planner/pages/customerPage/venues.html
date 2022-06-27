@@ -54,7 +54,7 @@
                     </ul>
                     
                     <div style="float: right;">               
-                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal3">Find Venue <span><i class="fa fa-search"></i></span></button>
+                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal4">Find Venue <span><i class="fa fa-search"></i></span></button>
                     </div>
                     
                   </div>        
@@ -120,6 +120,36 @@
 </div>
 
 
+
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="exampleModalLabel" style="font-weight: 900; color: black;">Venue Request</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="container">
+              <div class="row">
+                <form class="row g-3">
+                  <div class="col-md-6">
+                    <label for="inputType" class="form-label" id="availabilitytime">Availability Time *</label>
+                    <select class="form-select" aria-label="Default" id="timeslots">
+                      <!-- <option value="1">6-8</option> -->
+
+                    </select>
+                  </div>
+                </form>
+             </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="sendrequest()">Send Request</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
                         <!-- Modal -->
 <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -152,7 +182,7 @@
 </div>
 
                         <!-- Modal -->
-                        <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                        <div class="modal fade" id="exampleModal4" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-centered">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -337,7 +367,7 @@
                                                 <div class='card-body'>\
                                                 <h5 class='card-title'>"+value.name+"</h5>\
                                                 <p class='card-text' style='color: black;'>"+str+"</p>\
-                                                <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                                <a href='#' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal3' title='Request Pricing' value='Request Pricing' id='"+value.id+"request' onclick='requestitem(this.id)'>Request Pricing</a>\
                                                 </div>\
                                                 </div>\
                                                 </a>\
@@ -445,7 +475,7 @@
                                                 <div class='card-body'>\
                                                 <h5 class='card-title'>"+value.name+"</h5>\
                                                 <p class='card-text' style='color: black;'>"+str+"</p>\
-                                                <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                                <a href='#' class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#exampleModal3' title='Request Pricing' value='Request Pricing' id='"+value.id+"request' onclick='requestitem(this.id)'>Request Pricing</a>\
                                                 </div>\
                                                 </div>\
                                                 </a>\
@@ -800,4 +830,88 @@
   window.location.replace("/Planner/pages/loginRegisterPages/login.html");
   }
 </script>
+<script>
+  function requestitem(buttonid){
+    var array_times = []
+    $("#timeslots").html("<b></b>")
+    item_id = buttonid.split("request")[0]
+    setCookie("item_id_in_search",item_id,5);
+    $("#availabilitytime").html("<b>Availability time on "+getCookie("data_event")+"</b>");
+                $.ajax({
+                        url: "http://127.0.0.1:8086/item/times/"+item_id+"?date="+getCookie("data_event"), 
+                        type: "GET",          
+                        cache: true, 
+                        success: function(response){
+                            indexses = 0;
+                            $.each(response, function (key, timereserved) { 
+
+                                array_times[indexses] = timereserved.time;
+                                indexses++;
+                            })
+                        }
+                        })
+
+
+
+                        var url2 = "http://127.0.0.1:8086/item/items/"+ item_id+"/";
+                        $.ajax({
+                        url: url2, 
+                        type: "GET",          
+                        cache: true, 
+                        success: function(response){
+                                var counter  = 1;
+
+                            $.each(response, function (key, value) {
+                                    if(counter == 14)
+                                    {  
+                                        for( i in value)
+                                        {   
+                                            var isexist  = false
+                                        for( j in array_times)
+                                            {
+                                            if(array_times[j] == value[i].id)
+                                                {
+                                                    console.log(value[i].id)
+                                                    isexist = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(!isexist)
+                                            {
+                                                $("#timeslots").append("<option value='"+value[i].id+"'>"+value[i].start_time.split(":")[0]+":"+value[i].start_time.split(":")[1]+" - "+value[i].end_date.split(":")[0]+":"+value[i].end_date.split(":")[1]+"</option>")
+                                            }
+                                        }
+                                    }
+                                counter++;
+                            })
+                        }
+                        })
+  }
+</script>
+
+<script>
+  function sendrequest(){
+      sel = document.getElementById("timeslots")
+      $.ajax({type: 'POST',
+              url: 'http://localhost:8086/item/request/create',
+              crossDomain: true,
+              dataType: 'json',
+              data: {
+                      "status": false,
+                      "time": sel.value,
+                      "reserved_date": getCookie("data_event"),
+                      "item": getCookie("item_id_in_search"),
+                      "event": getCookie("event_id"),
+                  },
+              success: function (data) {
+                  alert("Your request is under review!")
+  
+              },
+              error: function (data) {
+                  console.log(data);
+              }
+              })
+  
+  }
+  </script>
 </html>
