@@ -52,7 +52,7 @@ class Item(models.Model):
 class resevedTable(models.Model):
     status = models.BooleanField(default=False)
     reserved_date = models.DateTimeField(null=False)
-    time = models.ForeignKey(availability_date, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    event = models.ForeignKey(event,on_delete=models.CASCADE,default=1)
+    time = models.ForeignKey(availability_date, null=False,on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, null=False,on_delete=models.CASCADE)
+    event = models.ForeignKey(event,null=False,on_delete=models.CASCADE)
 

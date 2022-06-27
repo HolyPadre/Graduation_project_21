@@ -21,7 +21,7 @@
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/vendorDashboard.html"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/items.html"><i class="fas fa-sitemap"></i><span>Items</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Reservation Requests</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/requests.html"><i class="fas fa-list"></i><span>Reservation Requests</span></a></li>
                     <li class="nav-item"><a class="nav-link active" href=""><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
 
@@ -100,4 +100,79 @@
     <script src="/Planner/assets2/js/theme.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </body>
+
+<script>
+    window.onload = (event) => {
+        if(getCookie("token_user") != "")
+        {
+        $.ajax({
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+            },
+            error: function (data) {
+            }
+                });
+
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    $("#admin-name").html("<b id>User-Name: "+data.username+"</b>");
+
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+            }
+                });
+            }
+            else{
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+            }
+
+};
+  </script>
+
+
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+  </script>
+  <script>
+    function logoutfunction(){
+    setCookie("token_user","",1);
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+    }
+  </script>
+  <script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+  </script>
 </html>

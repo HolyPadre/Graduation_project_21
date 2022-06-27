@@ -22,7 +22,7 @@
                     <li class="nav-item"><a class="nav-link active" href=""><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/items.html"><i class="fas fa-sitemap"></i><span>Items</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/requests.html"><i class="fas fa-list"></i><span>Reservation Requests</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/vendorPage/events.html"><i class="fas fa-clipboard-list"></i><span>Events</span></a></li>
                     <li class="nav-item"><a class="nav-link" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt"></i><span>Log out</span></a></li>
 
    
@@ -55,7 +55,7 @@
                                 }
                             });
                         </script>
-                        <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button><span id="textusername">Vendor Name</span>
+                        <div class="container-fluid"><button class="btn btn-link d-md-none rounded-circle me-3" id="sidebarToggleTop" type="button"><i class="fas fa-bars"></i></button><span id="admin-name">Vendor Name</span>
                             <form class="d-none d-sm-inline-block me-auto ms-md-3 my-2 my-md-0 mw-100 navbar-search">
                                 <div class="input-group"><input class="bg-light form-control border-0 small" type="text" placeholder="Search for ..."><button class="btn btn py-0" type="button" style="background-color: #2C3E50;"><i class="fas fa-search"></i></button></div>
                             </form>
@@ -119,7 +119,7 @@
                                 </a>
                             </div>
                             <div class="col-md-6 col-xl-3 mb-4">
-                                <a href="" style="text-decoration: none;">
+                                <a href="/Planner/pages/vendorPage/events.html" style="text-decoration: none;">
                                     <div class="card shadow border-start-info py-2">
                                         <div class="card-body">
                                             <div class="row align-items-center no-gutters">
@@ -161,30 +161,46 @@
 </script>
 <script>
     window.onload = (event) => {
+        if(getCookie("token_user") != "")
+        {
         $.ajax({
-  
-            type: 'POST',
-            url: 'http://127.0.0.1:8086/api/login',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                "username": getCookie("username_user"),
-                "password": getCookie("password_user")
-            },
-            success: function (data) {
-                 if(data.is_customer == true){
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
                     window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
-                     
-                 }else if(data.is_vendor == true){
-                 }else if(data.is_customer == false && data.is_vendor == false  ){
-                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
-                 }
             },
             error: function (data) {
-              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
             }
-        })
-  };
+                });
+
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    $("#admin-name").html("<b id>User-Name: "+data.username+"</b>");
+
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+            }
+                });
+            }
+            else{
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+            }
+
+};
   </script>
 
 
@@ -201,8 +217,7 @@
   </script>
   <script>
     function logoutfunction(){
-    setCookie("username_user","",1);
-    setCookie("password_user","",1);
+    setCookie("token_user","",1);
     window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
   </script>

@@ -172,11 +172,10 @@
         }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
-</script>
-<script>
+  </script>
+  <script>
     function logoutfunction(){
-    setCookie("username_user","",1);
-    setCookie("password_user","",1);
+    setCookie("token_user","",1);
     window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
 </script>

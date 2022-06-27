@@ -365,16 +365,51 @@
         }
     document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
-</script>
-<script>
+  </script>
+  <script>
     function logoutfunction(){
-    setCookie("username_user","",1);
-    setCookie("password_user","",1);
+    setCookie("token_user","",1);
     window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
 </script>
 <script>
     window.onload = (event) => {
+        if(getCookie("token_user") != "")
+      {
+      $.ajax({
+              url: "http://127.0.0.1:8086/api/customer/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+          },
+          error: function (data) {
+          }
+              });
+
+              $.ajax({
+              url: "http://127.0.0.1:8086/api/vendor/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                  window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+          },
+          error: function (data) {
+          }
+              });
+              $.ajax({
+              url: "http://127.0.0.1:8086/api/manager/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                  window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+          },
+          error: function (data) {
+          }
+              });
+          }
+          else{
+              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+          }
         $.ajax({
   
             type: 'POST',
@@ -664,7 +699,7 @@ function sendrequest(){
                     "reserved_date": getCookie("data_event"),
                     "item": getCookie("item_id"),
                     "event": getCookie("event_id"),
-    },
+                },
             success: function (data) {
                 alert("Your request is under review!")
 

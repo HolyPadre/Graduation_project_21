@@ -6,7 +6,7 @@ from ..models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['username', 'email', 'is_customer', 'is_vendor', 'is_manager']
+        fields = ['id','username', 'email', 'is_customer', 'is_vendor', 'is_manager']
 
 
 class CustomerSignupSerializer(serializers.ModelSerializer):

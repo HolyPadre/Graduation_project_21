@@ -244,33 +244,47 @@
 </script>
 <script>
   window.onload = (event) => {
-      $.ajax({
-
-          type: 'POST',
-          url: 'http://127.0.0.1:8086/api/login',
-          crossDomain: true,
-          dataType: 'json',
-          data: {
-              "username": getCookie("username_user"),
-              "password": getCookie("password_user")
-          },
-          success: function (data) {
-               if(data.is_customer == true){
-                   console.log(data.is_customer)
-               }else if(data.is_vendor == true){
-                window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
-               }else if(data.is_customer == false && data.is_vendor == false  ){
-                window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
-               }
-          },
-          error: function (data) {
-            window.location.replace("/Planner/pages/loginRegisterPages/login.html");
-          }
-      })
+    
 };
 </script>
 <script>
   $(document).ready(function () {
+      if(getCookie("token_user") != "")
+      {
+      $.ajax({
+              url: "http://127.0.0.1:8086/api/customer/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+          },
+          error: function (data) {
+          }
+              });
+
+              $.ajax({
+              url: "http://127.0.0.1:8086/api/vendor/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                  window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+          },
+          error: function (data) {
+          }
+              });
+              $.ajax({
+              url: "http://127.0.0.1:8086/api/manager/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                  window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+          },
+          error: function (data) {
+          }
+              });
+          }
+          else{
+              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+          }
       var queryString = new Array();
           if (queryString.length == 0) {
               if (window.location.search.split('?').length > 1) {
@@ -782,8 +796,7 @@
 </script>
 <script>
   function logoutfunction(){
-  setCookie("username_user","",1);
-  setCookie("password_user","",1);
+  setCookie("token_user","",1);
   window.location.replace("/Planner/pages/loginRegisterPages/login.html");
   }
 </script>

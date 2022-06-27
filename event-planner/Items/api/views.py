@@ -230,6 +230,8 @@ def add_request(request):
     if requests.is_valid():
         requests.save()
         return Response(requests.data, status=HTTP_201_CREATED)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
 
 
 
