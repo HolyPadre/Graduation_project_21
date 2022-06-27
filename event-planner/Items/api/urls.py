@@ -10,5 +10,6 @@ router.register("items", ItemViewSet, basename="Items")
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('types', views.all_type, name='view-types')
+    path('types', views.all_type, name='view-types'),
+    path('requests', views.all_request, name='view-request')
 ]
