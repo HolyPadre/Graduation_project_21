@@ -133,6 +133,7 @@
                 type: 'GET',
                 headers: {"Authorization":"Token "+getCookie("token_user")},
                 success: function (data) {
+                    setCookie("vendor_id",data.id,3);
                     $("#admin-name").html("<b id>User-Name: "+data.username+"</b>");
 
             },
@@ -159,7 +160,8 @@
                   cache: true, 
                   success: function(response){
                       $.each(response, function (key, value) { 
-                        console.log(value.item.vendor_id);
+                        if(value.item.vendor_id == getCookie("vendor_id"))
+                        { 
                           $('#trequests').append("<tr>\
                                       <td>"+value.item.name+"</td>\
                                       <td>"+value.event.user.username+"</td>\
@@ -171,7 +173,8 @@
                                       </tr>");
 
                                     //   <button type='button' class='btn btn-secondary' id='"+value.id+"decline'>Decline</button>
-                      })
+                                    }
+                                })
                   }
                 })
 
