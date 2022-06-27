@@ -246,3 +246,5 @@ def all_Recommended_Item(request):
     items = Item.objects.filter(id__in=lst)
     serializer = ItemSerializer(items, many = True)
     return Response(serializer.data)
+
+
