@@ -66,16 +66,16 @@
             success: function (data) {
                  if(data.is_customer == true){
                     setCookie("username_user",document.getElementById("username").value,5);
-                    setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
+                    setCookie("token_user",data.token,4);
                     window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
                      console.log(data.is_customer)
                  }else if(data.is_vendor == true){
                     setCookie("username_user",document.getElementById("username").value,5);
-                    setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
+                    setCookie("token_user",data.token,4);
                      window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
                  }else if(data.is_customer == false && data.is_vendor == false  ){
                     setCookie("username_user",document.getElementById("username").value,5);
-                    setCookie("password_user",document.getElementById("exampleInputPassword").value,5);
+                    setCookie("token_user",data.token,4);
                      window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
                  }
 
@@ -112,30 +112,41 @@
 </script>
 <script>
     window.onload = (event) => {
+        if(getCookie("token_user") != "")
+        {
         $.ajax({
-
-            type: 'POST',
-            url: 'http://127.0.0.1:8086/api/login',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                "username": getCookie("username_user"),
-                "password": getCookie("password_user")
-            },
-            success: function (data) {
-                 if(data.is_customer == true){
-                   window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
-                     console.log(data.is_customer)
-                 }else if(data.is_vendor == true){
-                     window.location.replace("../vendorPage/vendorDashboard.html");
-                 }else if(data.is_customer == false && data.is_vendor == false  ){
-                     window.location.replace("../adminPage/adminDashboard.html");
-                 }
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
             },
             error: function (data) {
-                console.log(data);
             }
-        })
+                });
+
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+            }
+                });
+            }
+
 };
 </script>
 </html>

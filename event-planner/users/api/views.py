@@ -80,6 +80,9 @@ class CustomerOnlyView(generics.RetrieveAPIView):
 class VendorOnlyView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated & IsVendorUser]
     serializer_class = UserSerializer
+    
+    def get_object(self):
+        return self.request.user
 
 
 class ManagerOnlyView(generics.RetrieveAPIView):
