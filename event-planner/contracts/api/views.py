@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from .contractSerializer import ContractSerializer
-from contracts.models import Contract
+from ..models import Contract
 
 
 @api_view(['GET'])

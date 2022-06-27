@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_200_OK, HTTP_201_CREATED
 
 from .eventSerializer import EventSerializer, ScheduleSerializer
-from events.models import event, event_schdual
+from ..models import event, event_schdual
 
 
 @api_view(['GET'])

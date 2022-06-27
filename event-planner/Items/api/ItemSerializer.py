@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from Items.models import Item, images, availability_date, Amenities, ItemType
+from ..models import Item, images, availability_date, Amenities, ItemType, resevedTable
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -20,11 +20,11 @@ class TypeSerializer(serializers.ModelSerializer):
         model = ItemType
         fields = ['type_name']
 
+
 class AmenitiesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Amenities
         fields = ['amenities_name']
-
 
 
 class ItemSerializer(serializers.ModelSerializer):
@@ -32,4 +32,11 @@ class ItemSerializer(serializers.ModelSerializer):
         model = Item
         fields = ['name', 'address', 'location', 'phone', 'link', 'about', 'price',
                   'vendor_id', 'rate', 'types', 'images', 'amenities', 'availability_date']
+        depth = 1
+
+
+class requestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = resevedTable
+        fields = ['id', 'status', 'Date', 'time', 'item', 'event']
         depth = 1

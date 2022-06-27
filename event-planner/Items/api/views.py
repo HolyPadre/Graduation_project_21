@@ -2,7 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from Items.models import Item, ItemType
+from ..models import Item, ItemType,resevedTable
 from .ItemSerializer import ItemSerializer, TypeSerializer
 
 
@@ -14,6 +14,20 @@ def all_type(request):
         return Response(serializer.data)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+@api_view(['GET'])
+def all_request(request):
+    # checking for the parameters from the URL
+    requests = resevedTable.objects.all()
+    serializer = ItemSerializer(requests, many=True)
+
+    # if there is something in items else raise error
+    if requests:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
 
 
 
