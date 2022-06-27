@@ -3,7 +3,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from ..models import Item, ItemType,resevedTable
-from .ItemSerializer import ItemSerializer, TypeSerializer
+from .ItemSerializer import ItemSerializer, TypeSerializer, ReservedSerializer
 
 
 @api_view(['GET'])
@@ -75,13 +75,13 @@ def all_item_by_price_ASC(request):
 @api_view(['GET'])
 def returnAvalibleTime(request, pk):
     date = request.GET.get('date')
-    reserved = resevedTable.objects.all().filter(item=pk, reserved_date=date).distinct()
+    reserved = resevedTable.objects.all().filter(item=pk, Date=date).distinct()
     serializer = ReservedSerializer(reserved, many=True)
 
     if reserved:
         return Response(serializer.data)
     else:
-        return Response(status=status.HTTP_404_NOT_FOUND)
+        return Response(serializer.data)
 
 
 @api_view(['GET'])

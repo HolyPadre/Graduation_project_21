@@ -39,7 +39,7 @@ class Item(models.Model):
     price = models.FloatField(blank=False)
     vendor_id = models.CharField(max_length=10, blank=False)
     rate = models.TextField(max_length=10)
-    size = models.IntegerField(max_length=10, default=100)
+    size = models.IntegerField( default=100)
     types = models.ManyToManyField(ItemType)
     images = models.ManyToManyField(images)
     amenities = models.ManyToManyField(Amenities)
@@ -51,9 +51,7 @@ class Item(models.Model):
 
 class resevedTable(models.Model):
     status = models.BooleanField(default=False)
-    Date = models.DateTimeField(null=False)
+    reserved_date = models.DateTimeField(null=False)
     time = models.ForeignKey(availability_date, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
-    event = models.ForeignKey(event,on_delete=models.CASCADE)
-
 
