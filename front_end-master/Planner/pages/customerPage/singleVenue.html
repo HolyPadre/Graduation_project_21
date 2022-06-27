@@ -634,13 +634,9 @@
                         success: function(response){
                             indexses = 0;
                             $.each(response, function (key, timereserved) { 
-                                console.log("sdfsf")
 
                                 array_times[indexses] = timereserved.time;
-                                console.log(array_times[indexses]+"sdfsf")
                                 indexses++;
-
-
                             })
                         }
                         })
@@ -688,7 +684,6 @@
 <script>
 function sendrequest(){
     sel = document.getElementById("timeslots")
-    alert(getCookie("event_id"))
     $.ajax({type: 'POST',
             url: 'http://localhost:8086/item/request/create',
             crossDomain: true,
@@ -710,6 +705,5 @@ function sendrequest(){
             })
 
 }
-
 </script>
 </html>

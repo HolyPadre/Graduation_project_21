@@ -70,8 +70,8 @@
                                             <th>Handle</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody id="trequests">
+                                        <!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
@@ -81,7 +81,7 @@
                                                 <button type="button" class="btn btn-primary">Approve</button>
                                                 <button type="button" class="btn btn-secondary">Decline</button>
                                             </td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                    
                                 </table>
@@ -153,10 +153,36 @@
             else{
                 window.location.replace("/Planner/pages/loginRegisterPages/login.html");
             }
+            $.ajax({
+                  url: "http://127.0.0.1:8086/item/requests", 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                        console.log(value.item.vendor_id);
+                          $('#trequests').append("<tr>\
+                                      <td>"+value.item.name+"</td>\
+                                      <td>"+value.event.user.username+"</td>\
+                                      <td>"+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time+"  -  "+value.time.end_date+" </td>\
+                                      <td>"+value.event.type+"</td>\
+                                      <td>"+value.event.location+"</td>\
+                                      <td><button type='button' class='btn btn-primary' id='"+value.id+"approve' onclick='approveOrDecline(this.id)'>Approve</button></td>\
+                                      <td><button type='button' class='btn btn-secondary' id='"+value.id+"decline' onclick='approveOrDecline(this.id)'>Decline</button></td>\
+                                      </tr>");
+
+                                    //   <button type='button' class='btn btn-secondary' id='"+value.id+"decline'>Decline</button>
+                      })
+                  }
+                })
 
 };
   </script>
-
+<script>
+    function approveOrDecline(buttonid)
+    {
+        alert(buttonid)
+    }
+</script>
 
 <script>
     function setCookie(name,value,days) {

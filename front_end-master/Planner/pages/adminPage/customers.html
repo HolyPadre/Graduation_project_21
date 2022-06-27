@@ -103,6 +103,45 @@
 </body>
 <script>
     $(document).ready(function () {
+        if(getCookie("token_user") != "")
+      {
+      $.ajax({
+              url: "http://127.0.0.1:8086/api/customer/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+
+          },
+          error: function (data) {
+          }
+              });
+
+              $.ajax({
+              url: "http://127.0.0.1:8086/api/vendor/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                  window.location.replace("../vendorPage/vendorDashboard.html");
+          },
+          error: function (data) {
+          }
+              });
+              $.ajax({
+              url: "http://127.0.0.1:8086/api/manager/dashboard",
+              type: 'GET',
+              headers: {"Authorization":"Token "+getCookie("token_user")},
+              success: function (data) {
+                $("#admin-name").html("<b id>Admin: "+data.username+"</b>");
+
+          },
+          error: function (data) {
+          }
+              });
+          }
+          else{
+              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+          }
                 $.ajax({
                   url: "http://127.0.0.1:8086/api/users", 
                   type: "GET",          
@@ -134,33 +173,6 @@
         }
     return null;
     }
-</script>
-<script>
-    window.onload = (event) => {
-        $.ajax({
-
-            type: 'POST',
-            url: 'http://127.0.0.1:8086/api/login',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                "username": getCookie("username_user"),
-                "password": getCookie("password_user")
-            },
-            success: function (data) {
-                 if(data.is_customer == true){
-                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
-                     console.log(data.is_customer)
-                 }else if(data.is_vendor == true){
-                    window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
-                 }else if(data.is_manager == true  ){
-                 }
-            },
-            error: function (data) {
-                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
-            }
-        })
-};
 </script>
 <script>
     function setCookie(name,value,days) {
