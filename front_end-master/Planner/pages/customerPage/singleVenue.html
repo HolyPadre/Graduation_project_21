@@ -56,7 +56,7 @@
             </div>
             <div class="row p-5">
                 <div style="clear: both; padding: 10px 0;">
-                    <input type="button" class="btn btn-secondary btn-lg" style="float: left; font-size: 18px; height: 44px; width: 250px;" data-bs-toggle="modal" data-bs-target="#exampleModal1" title="Request Pricing" value="Request Pricing" >
+                    <input type="button" class="btn btn-secondary btn-lg" style="float: left; font-size: 18px; height: 44px; width: 250px;" data-bs-toggle="modal" data-bs-target="#exampleModal1" title="Request Pricing" value="Request Pricing" onclick="timesadd()">
 
                         <div style="float: left; padding-left: 25px;" class="eve-price-highlight">
                             <div class="fa fa-bolt" style="color: #FFCC00; font-size: 20px; padding-top: 10px;" aria-hidden="true"></div> 
@@ -77,17 +77,17 @@
                 <div class="row">
                   <form class="row g-3">
                     <div class="col-md-6">
-                      <label for="inputType" class="form-label">Availability Time *</label>
-                      <select class="form-select" aria-label="Default">
+                      <label for="inputType" class="form-label" id="availabilitytime">Availability Time *</label>
+                      <select class="form-select" aria-label="Default" id="timeslots">
                         <!-- <option value="1">6-8</option> -->
-                        
+
                       </select>
                     </div>
                   </form>
                </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Send Request</button>
+          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="sendrequest()">Send Request</button>
         </div>
       </div>
     </div>
@@ -462,12 +462,17 @@
                 })
 
 
+
+
+
+
   };
   </script>
 <script type="text/javascript">
 
 </script>
 <script>
+    var array_times = [];
     $(document).ready(function () {
         var queryString = new Array();
         if (queryString.length == 0) {
@@ -485,7 +490,6 @@
             // $("#textusername").html(data);
         }
         var url = "http://127.0.0.1:8000/item/items/"+ queryString["id"]+"/";
-        console.log(url);
                 $.ajax({
                   url: url, 
                   type: "GET",          
@@ -566,16 +570,88 @@
                                 $("#amenitieslist").append("<li>"+value[i].amenities_name+"</li>");
                             }
                         }
+                        else if(counter == 14)
+                        { 
+                            for( j in value){
+                               console.log();
+                            }
+                        }
                         else if(counter == 15)
                         {
                             $("#informationvenue").append("<li>Capacity: "+value+" people</li>");
 
                         }
+
                         counter++;
                       })
                   }
                 })
-              });
-  </script>
 
+                $("#availabilitytime").html("<b>Availability time on "+getCookie("data_event")+"</b>");
+                $.ajax({
+                        url: "http://127.0.0.1:8086/item/times/"+ queryString["id"]+"?date="+getCookie("data_event"), 
+                        type: "GET",          
+                        cache: true, 
+                        success: function(response){
+                            indexses = 0;
+                            $.each(response, function (key, timereserved) { 
+                                console.log("sdfsf")
+
+                                array_times[indexses] = timereserved.time;
+                                console.log(array_times[indexses]+"sdfsf")
+                                indexses++;
+
+
+                            })
+                        }
+                        })
+
+
+
+                        var url2 = "http://127.0.0.1:8086/item/items/"+ queryString["id"]+"/";
+                        $.ajax({
+                        url: url2, 
+                        type: "GET",          
+                        cache: true, 
+                        success: function(response){
+                                var counter  = 1;
+
+                            $.each(response, function (key, value) {
+                                    if(counter == 14)
+                                    {  
+                                        for( i in value)
+                                        {   
+                                            var isexist  = false
+                                        for( j in array_times)
+                                            {
+                                            if(array_times[j] == value[i].id)
+                                                {
+                                                    console.log(value[i].id)
+                                                    isexist = true;
+                                                    break;
+                                                }
+                                            }
+                                            if(!isexist)
+                                            {
+                                                $("#timeslots").append("<option value='"+value[i].id+"'>"+value[i].start_time.split(":")[0]+":"+value[i].start_time.split(":")[1]+" - "+value[i].end_date.split(":")[0]+":"+value[i].end_date.split(":")[1]+"</option>")
+                                            }
+                                        }
+                                    }
+                                counter++;
+                            })
+                        }
+                        })
+
+              });
+
+
+  </script>
+<script>
+function sendrequest(){
+    sel = document.getElementById("timeslots")
+    alert(sel.value)
+
+}
+
+</script>
 </html>

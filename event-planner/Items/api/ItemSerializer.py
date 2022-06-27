@@ -30,8 +30,8 @@ class AmenitiesSerializer(serializers.ModelSerializer):
 class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = Item
-        fields = ['name', 'address', 'location', 'phone', 'link', 'about', 'price',
-                  'vendor_id', 'rate', 'types', 'images', 'amenities', 'availability_date']
+        fields = ['id','name', 'address', 'location', 'phone', 'link', 'about', 'price',
+                  'vendor_id', 'rate', 'types', 'images', 'amenities', 'availability_date','size']
         depth = 1
 
 
