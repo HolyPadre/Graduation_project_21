@@ -152,6 +152,19 @@ def all_items(request):
         return Response(status=status.HTTP_404_NOT_FOUND)
 
 
+@api_view(['GET'])
+def all_requests(request):
+    # checking for the parameters from the URL
+    items = resevedTable.objects.all()
+    serializer = ReserveddSerializer(items, many=True)
+
+    # if there is something in items else raise error
+    if items:
+        return Response(serializer.data)
+    else:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 class ItemViewSet(viewsets.ModelViewSet):
     serializer_class = ItemSerializer
 
@@ -207,6 +220,7 @@ class ItemViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         items = Item.objects.all()
         return items
+
 
 
 
