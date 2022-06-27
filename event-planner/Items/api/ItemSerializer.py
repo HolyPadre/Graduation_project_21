@@ -45,4 +45,10 @@ class ReserveddSerializer(serializers.ModelSerializer):
     class Meta:
         model = resevedTable
         fields = ['status', 'reserved_date', 'time', 'item', 'event']
-        depth=1
+        
+class ReservedAllSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = resevedTable
+        fields = ['status', 'reserved_date', 'time', 'item', 'event']
+        depth = 1
+        

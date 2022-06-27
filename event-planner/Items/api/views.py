@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.status import HTTP_201_CREATED
 
 from ..models import Item, ItemType,resevedTable
-from .ItemSerializer import ItemSerializer, TypeSerializer, ReservedSerializer, ReserveddSerializer
+from .ItemSerializer import ItemSerializer, TypeSerializer, ReservedSerializer, ReserveddSerializer, ReservedAllSerializer
 
 
 @api_view(['GET'])
@@ -156,7 +156,7 @@ def all_items(request):
 def all_requests(request):
     # checking for the parameters from the URL
     items = resevedTable.objects.all()
-    serializer = ReserveddSerializer(items, many=True)
+    serializer = ReservedAllSerializer(items, many=True)
 
     # if there is something in items else raise error
     if items:
