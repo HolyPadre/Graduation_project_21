@@ -410,29 +410,6 @@
           else{
               window.location.replace("/Planner/pages/loginRegisterPages/login.html");
           }
-        $.ajax({
-  
-            type: 'POST',
-            url: 'http://127.0.0.1:8086/api/login',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                "username": getCookie("username_user"),
-                "password": getCookie("password_user")
-            },
-            success: function (data) {
-                 if(data.is_customer == true){
-                     console.log(data.is_customer)
-                 }else if(data.is_vendor == true){
-                  window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html");
-                 }else if(data.is_customer == false && data.is_vendor == false  ){
-                  window.location.replace("/Planner/pages/adminPage/adminDashboard.html");
-                 }
-            },
-            error: function (data) {
-                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
-            }
-        })
         console.log(getCookie("name_item"))
         $.ajax({
                   url: "http://localhost:8000/item/recommended?itemstr="+getCookie("name_item"),
