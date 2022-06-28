@@ -6,3 +6,4 @@ class ContractSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Contract
 		fields = ('id', 'user', 'name', 'email', 'status', 'createdTime')
+

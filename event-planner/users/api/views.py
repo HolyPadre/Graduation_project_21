@@ -3,7 +3,8 @@ from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import CustomerSignupSerializer,PaymentSerializer, VendorSignupSerializer, UserSerializer, UserSerializerForTable
+from .serializers import CustomerSignupSerializer, PaymentSerializer, VendorSignupSerializer, UserSerializer, \
+    UserSerializerForTable
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.views import APIView
 from .permissions import IsCustomerUser, IsManagerUser, IsVendorUser

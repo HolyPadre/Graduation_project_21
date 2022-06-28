@@ -74,6 +74,9 @@ def delete_guests(request, pk):
 
 @api_view(['POST'])
 def email(request):
+    time = request.GET.get('time')
+    location = request.GET.get('location')
+    name = request.GET.get('name')
     guest = GuestSerializer(data=request.data)
 
     subject = 'Palestine Planner'
@@ -81,8 +84,7 @@ def email(request):
     if guest.is_valid():
         message = ' hello ' + guest.data.get('name') + \
                   '\n I hope this message finds you well.\n I am Writing to you to invite ' \
-                  ' you to my event. This will take place on  at grand park ' \
-                  '\n I hope to see you there 😄'
+                  ' you to my event. This will take place on ' + time + ' at ' + location + '\n I hope to see you there 😄'
 
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [guest.data.get('email'), ]
