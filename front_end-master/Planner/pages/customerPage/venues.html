@@ -787,33 +787,6 @@
   }
 </script>
 <script>
-  window.onload = (event) => {
-      $.ajax({
-
-          type: 'POST',
-          url: 'http://127.0.0.1:8086/api/login',
-          crossDomain: true,
-          dataType: 'json',
-          data: {
-              "username": getCookie("username_user"),
-              "password": getCookie("password_user")
-          },
-          success: function (data) {
-               if(data.is_customer == true){
-                   console.log(data.is_customer)
-               }else if(data.is_vendor == true){
-                   window.location.replace("../vendorPage/vendorDashboard.html");
-               }else if(data.is_manager == true  ){
-                window.location.replace("../adminPage/adminDashboard.html");
-               }
-          },
-          error: function (data) {
-              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
-          }
-      })
-};
-</script>
-<script>
   function setCookie(name,value,days) {
   var expires = "";
   if (days) {
