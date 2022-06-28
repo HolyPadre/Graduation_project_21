@@ -6,3 +6,4 @@ event-planner/users/api/views.py
 event-planner/Items/migrations/0002_alter_resevedtable_time.py
 event-planner/Items/migrations/0003_alter_resevedtable_item.py
 event-planner/Items/migrations/0004_alter_resevedtable_event_alter_resevedtable_item_and_more.py
+event-planner/Items/migrations/0005_alter_resevedtable_status.py

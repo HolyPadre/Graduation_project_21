@@ -75,28 +75,27 @@
                                         </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="myTable">
                                     <tr id='addr0'>
-                                        <td>
+                                        <td id = "value0"> 
                                         1
                                         </td>
                                         <td>
-                                        <input type="text" name='name0'  placeholder='name' class="form-control"/>
+                                        <input type="text" name='name0'  placeholder='name' class="form-control" id="name0"/>
                                         </td>
                                         <td>
-                                        <input type="text" name='email0' placeholder='email' class="form-control"/>
+                                        <input type="text" name='email0' placeholder='email' class="form-control" id="email0"/>
                                         </td>
                                         <td>
-                                            <select class="form-select" aria-label="Default">
+                                            <select class="form-select" aria-label="Default" id="selection0">
                                                 <option value="1">Friends</option>
                                                 <option value="3">Family</option>
                                               </select>
                                         </td>
                                        
-                                        <td><button type="button" class="btn btn-danger" id="delB">Delete</button></td>
+                                        <td><button type="button" class="btn btn-danger" id="del0" onclick="deleteRow(this)">Delete</button></td>
                                        
                                     </tr>
-                                    <tr id='addr1'></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -117,4 +116,73 @@
     <script src="/Planner/pages/customerPage/guest.js"></script>
 
 </body>
+<script>
+    function deleteRow(r) {
+        var i = parseInt(getCookie("counter"));
+        var begin = parseInt(r.id.split("del")[1]);
+        alert(begin)
+        var row = r.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        i--;
+        for(var j=begin+1; j<i; j++) {
+            console.log("addr"+(j-1));
+            var addr = document.getElementById("addr"+j)
+            addr.id =  "addr"+(j-1);
+            // document.getElementById("value"+i).id =  "value"+(i-1)+"";
+            var valueadd = document.getElementById("value"+j)
+            valueadd.id =  "value"+(j-1);
+            $("#value"+(j-1)).html("<b>"+j+"</b>");
+            // document.getElementById("name"+i).id =  "name"+(i-1)+"";
+            var namevalue = document.getElementById("name"+j)
+            namevalue.id = "name"+(j-1);
+            // document.getElementById("email"+i).id =  "email"+(i-1)+"";
+            var emailvalue = document.getElementById("email"+j)
+            emailvalue.id = "email"+(j-1);
+            // document.getElementById("selection"+i).id =  "selection"+(i-1)+"";
+            var selectionvalue = document.getElementById("selection"+j)
+            selectionvalue.id = "selection"+(j-1);
+            // document.getElementById("del"+i).id =  "del"+(i-1)+"";
+            var delvalue = document.getElementById("del"+j)
+            delvalue.id = "del"+(j-1);
+        }
+        setCookie("counter",""+i,5);
+}
+</script>
+
+<script>
+$(document).ready(function(){
+
+  setCookie("counter",1,5);
+   $("#add_row").click(function(){
+    var i = parseInt(getCookie("counter"));
+    $("#myTable").append("<tr id='addr"+(i+1)+"'><td id= 'value"+i+"'>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='name' class='form-control input-md' id='name"+i+"'/></td><td><input  name='email"+i+"' type='text' placeholder='email'  class='form-control input-md' id='email"+i+"' /></td><td> <select class='form-select' aria-label='Default' id = 'selection"+i+"'><option value='1'>Friends</option><option value='3'>Family</option></select></td><td><button type='button' class='btn btn-danger' id = 'del"+i+"'onclick='deleteRow(this)'>Delete</button></td>");
+    i++; 
+    setCookie("counter",""+i,5);
+
+});
+});
+</script>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+  </script>
+  <script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+  </script>
 </html>

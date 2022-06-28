@@ -27,7 +27,7 @@
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="\Planner\pages\customerPage\customerDashboard.html">Home</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Vendors</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">My Events</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href=""><i class="fas fa-sign-out-alt">Log Out</i></a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href=""><i class="fas fa-sign-out-alt" onclick="logoutfunction()">Log Out</i></a></li>
 
                 </ul>
             </div>
@@ -49,8 +49,8 @@
                                     <th>Handle</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
+                            <tbody id="eventtable">
+                                <!-- <tr>
                                     <td></td>
                                     <td></td>
                                     <td></td>
@@ -58,7 +58,7 @@
                                         <button type="button" class="btn btn-primary">Contract</button>
                                         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal1">Payment</button>
                                     </td>                            
-                                </tr>
+                                </tr> -->
                             </tbody>
                            
                         </table>
@@ -83,16 +83,16 @@
                   <form class="row g-3">
                     <div class="col-md-6">
                       <label for="inputType" class="form-label">Account Type *</label>
-                      <select class="form-select" aria-label="Default">
+                      <select class="form-select" aria-label="Default" id="selectaccount">
                         <option value="1">Credit Card</option>
                         <option value="2">Bank Transfer</option>
                       </select>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="banknamemain">
                         <label for="inputName4" class="form-label">Bank Name *</label>
                         <input type="text" class="form-control" id="inputName4">
                       </div>
-                      <div class="col-md-6">
+                      <div class="col-md-6" id="bankaccountmain">
                         <label for="inputName4" class="form-label">Bank Account *</label>
                         <input type="text" class="form-control" id="inputName5">
                       </div>
@@ -100,7 +100,7 @@
                </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Done</button>
+          <button type="button" class="btn btn-secondary"  onclick="done()">Done</button>
         </div>
       </div>
     </div>
@@ -136,8 +136,150 @@
 </div>
 <script src="/Planner/assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 
 </body>
+<script>
+    function getCookie(name) {
+    var nameEQ = name + "=";
+    var ca = document.cookie.split(';');
+    for(var i=0;i < ca.length;i++) {
+        var c = ca[i];
+        while (c.charAt(0)==' ') c = c.substring(1,c.length);
+        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+        }
+    return null;
+    }
+  </script>
+<script>
+    window.onload = (event) => {
+        if(getCookie("token_user") != "")
+        {
+        $.ajax({
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                  setCookie("user_id",data.id,5);
+            },
+            error: function (data) {
+            }
+                });
+  
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+            }
+                });
+            }
+            else{
+                window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+            }
 
+            $.ajax({
+                  url: "http://127.0.0.1:8086/item/requests", 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                            if((value.event.user.id == getCookie("user_id"))&& value.status == "approve")
+                            {   setCookie("user_id",value.event.user.id,5)
+                                $("#eventtable").append("<tr>\
+                                      <td>"+value.event.name+"</td>\
+                                      <td>"+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time+"  -  "+value.time.end_date+" </td>\
+                                      <td>"+value.event.location+"</td>\
+                                      <td>\
+                                      <button type='button' class='btn btn-primary'>Contract</button>\
+                                      <button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#exampleModal1' id ='"+value.id+"request' onclick = 'takeid(this.id)'>Payment</button>\
+                                      </td>\
+                                      </tr>");
+                            }
+                      })
+                  }
+                })
+
+            
+  
+  };
+  </script>
+<script>
+function takeid(buttonid){
+    setCookie("requestid",""+buttonid.split("request")[0],5);
+}
+</script>
+<script>
+    function done(){
+        sel = document.getElementById("selectaccount")
+        var selectaccount = sel.options[sel.selectedIndex].text;
+        if ($('#validation').length > 0) {
+            var row = document.getElementById("validation");
+            row.parentNode.removeChild(row);
+        }
+
+        var patt =/^(?:(4[0-9]{12}(?:[0-9]{3})?)|(5[1-5][0-9]{14})|(6(?:011|5[0-9]{2})[0-9]{12})|(3[47][0-9]{13})|(3(?:0[0-5]|[68][0-9])[0-9]{11})|((?:2131|1800|35[0-9]{3})[0-9]{11}))$/;
+        var text = document.getElementById("inputName5").value
+        if(document.getElementById("inputName4").value =="")
+        {
+            $("#banknamemain").append('<p style="color:red" id="validation">Please Enter a Bank Name</p>');
+            return;
+        }
+        if(!patt.test(text))
+        {   
+            $("#bankaccountmain").append('<p style="color:red" id="validation">Please Enter a Valid Bank Account.</p>');
+            return;
+        }
+        $.ajax({
+                url: 'http://127.0.0.1:8086/api/payment/'+getCookie("user_id"),
+                method: 'PUT',
+                dataType: 'json',
+                data: {
+                    "account_type": selectaccount,
+                    "bank_number": text,
+                    "bank_name": document.getElementById("inputName4").value,
+            },
+            success: function(data) {
+                window.location.replace("/Planner/pages/customerPage/guestManage.html")
+            }
+            })
+
+
+
+
+
+    }
+    </script>
+
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
+  </script>
+  <script>
+    function logoutfunction(){
+    setCookie("token_user","",1);
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
+    }
+  
+  </script>
 </html>

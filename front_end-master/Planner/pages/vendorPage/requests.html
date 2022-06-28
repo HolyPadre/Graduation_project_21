@@ -183,7 +183,30 @@
 <script>
     function approveOrDecline(buttonid)
     {
-        alert(buttonid)
+        var requestid;
+        var status;
+        if(buttonid.includes("approve"))
+        {
+            requestid = buttonid.split("approve")[0];
+            status = "approve";
+        }
+        else if(buttonid.includes("decline"))
+        {
+            requestid = buttonid.split("decline")[0];
+            status = "decline";
+
+        }
+        $.ajax({
+                url: 'http://127.0.0.1:8086/item/request/'+requestid,
+                method: 'PUT',
+                dataType: 'json',
+                data: {
+                    "status": status
+            },
+            success: function(data) {
+                console.log(data)
+            }
+            })
     }
 </script>
 
