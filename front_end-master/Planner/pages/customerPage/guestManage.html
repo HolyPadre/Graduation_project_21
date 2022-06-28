@@ -22,7 +22,7 @@
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
                     <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Manage Guests</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/customerPage/showGuest.html"><i class="fas fa-clipboard-list"></i><span>List of Guests</span></a></li>
+                    <!-- <li class="nav-item" ><a class="nav-link" onclick="gotoanother()" href="/Planner/pages/customerPage/showGuest.html"><i class="fas fa-clipboard-list"></i><span>List of Guests</span></a></li> -->
 
    
                 </ul>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <a id="add_row" class="btn btn-secondary">ADD</a>
-                    <a id="saveB" class="btn btn-secondary">SAVE</a><!-- when click save go to sendInvitation page-->
+                    <a id="saveB" class="btn btn-secondary" onclick="gotoanother()" href="/Planner/pages/customerPage/sendInvitation.html">SAVE</a><!-- when click save go to sendInvitation page-->
 
 
                 </div>
@@ -120,12 +120,10 @@
     function deleteRow(r) {
         var i = parseInt(getCookie("counter"));
         var begin = parseInt(r.id.split("del")[1]);
-        alert(begin)
         var row = r.parentNode.parentNode;
         row.parentNode.removeChild(row);
         i--;
-        for(var j=begin+1; j<i; j++) {
-            console.log("addr"+(j-1));
+        for(var j=begin+1; j<i+1; j++) {
             var addr = document.getElementById("addr"+j)
             addr.id =  "addr"+(j-1);
             // document.getElementById("value"+i).id =  "value"+(i-1)+"";
@@ -148,14 +146,57 @@
         setCookie("counter",""+i,5);
 }
 </script>
+<!-- href="/Planner/pages/customerPage/showGuest.html" -->
+<script>
+    function gotoanother(){
+    var  i = parseInt(getCookie("counter"));
+    for(var k = 0; k < i;k++)
+    {
+        setCookie("addr"+k,document.getElementById("addr"+k),1)
+        setCookie("email"+k,document.getElementById("email"+k).value,1)
+        setCookie("name"+k,document.getElementById("name"+k).value,1)
+        sel = document.getElementById("selection"+k)
+        var selectaccount = sel.selectedIndex
+        setCookie("selection"+k,selectaccount,1)
+        setCookie("row"+k,"<tr>\
+                           <td>"+document.getElementById("name"+k).value+"</td>\
+                           <td>"+document.getElementById("email"+k).value+"</td>\
+                           <td>"+sel.options[sel.selectedIndex].text+"</td>\
+                           </tr>",1)
+    }
+    }
+
+</script>
+
+
+
+
 
 <script>
 $(document).ready(function(){
 
+
+
+//   if(getCookie("counter") != "")
+//   { 
+//     $("#myTable").html("<b></b>");
+//     var i = parseInt(getCookie("counter"));
+
+//     for(var k = 0 ; k< i ;k++)
+//     {
+//     $("#myTable").append(getCookie("addr"+k))
+//     document.getElementById("email"+k).value = getCookie("email"+k);
+//     document.getElementById("name"+k).value = getCookie("name"+k);
+//     sel = document.getElementById("selection"+k)
+//     sel.selectedIndex = parseInt(getCookie("selection"+k))
+//     }
+
+//     return;
+//   }  
   setCookie("counter",1,5);
    $("#add_row").click(function(){
     var i = parseInt(getCookie("counter"));
-    $("#myTable").append("<tr id='addr"+(i+1)+"'><td id= 'value"+i+"'>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='name' class='form-control input-md' id='name"+i+"'/></td><td><input  name='email"+i+"' type='text' placeholder='email'  class='form-control input-md' id='email"+i+"' /></td><td> <select class='form-select' aria-label='Default' id = 'selection"+i+"'><option value='1'>Friends</option><option value='3'>Family</option></select></td><td><button type='button' class='btn btn-danger' id = 'del"+i+"'onclick='deleteRow(this)'>Delete</button></td>");
+    $("#myTable").append("<tr id='addr"+i+"'><td id= 'value"+i+"'>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='name' class='form-control input-md' id='name"+i+"'/></td><td><input  name='email"+i+"' type='text' placeholder='email'  class='form-control input-md' id='email"+i+"' /></td><td> <select class='form-select' aria-label='Default' id = 'selection"+i+"'><option value='1'>Friends</option><option value='3'>Family</option></select></td><td><button type='button' class='btn btn-danger' id = 'del"+i+"'onclick='deleteRow(this)'>Delete</button></td>");
     i++; 
     setCookie("counter",""+i,5);
 

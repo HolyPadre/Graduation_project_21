@@ -21,8 +21,8 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Manage Guests</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-clipboard-list"></i><span>List of Guests</span></a></li>
+                    <!-- <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Manage Guests</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-clipboard-list"></i><span>List of Guests</span></a></li> -->
 
    
                 </ul>
@@ -64,12 +64,12 @@
                                             <th>Relation</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
+                                    <tbody id="showgeust">
+                                        <!-- <tr>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                        </tr>
+                                        </tr> -->
                                     </tbody>
                                    
                                 </table>
@@ -91,4 +91,39 @@
     <script src="/Event_Planner_FrontEnd//Planner/pages/customerPage/guest.js"></script>
 
 </body>
+<script>
+    $(document).ready(function(){
+     var i = parseInt(getCookie("counter"));
+    
+     for(var k = 0 ; k< i ;k++)
+     {
+        $("#showgeust").append(getCookie("row"+k))
+     }
+    });
+    </script>
+    <script>
+        function setCookie(name,value,days) {
+        var expires = "";
+        if (days) {
+            var date = new Date();
+            date.setTime(date.getTime() + (days*24*60*60*1000));
+            expires = "; expires=" + date.toUTCString();
+            }
+        document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+      </script>
+      <script>
+        function getCookie(name) {
+        var nameEQ = name + "=";
+        var ca = document.cookie.split(';');
+        for(var i=0;i < ca.length;i++) {
+            var c = ca[i];
+            while (c.charAt(0)==' ') c = c.substring(1,c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+        return null;
+        }
+      </script>
+
+
 </html>

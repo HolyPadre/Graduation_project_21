@@ -78,7 +78,8 @@ def email(request):
     location = request.GET.get('location')
     name = request.GET.get('name')
     guest = GuestSerializer(data=request.data)
-
+    print(str(time)+"asdasdf")
+    print(str(location)+"aasdasd")
     subject = 'Palestine Planner'
 
     if guest.is_valid():
