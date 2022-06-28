@@ -52,7 +52,7 @@
                     </nav>
                 </section>
              
-                <div class="container">
+                <div class="container" id="conrainerdiv">
                     <div class="row clearfix">
                         <div class="col-md-12 column">
                             <table class="table table-bordered table-hover" id="tab_logic">
@@ -81,7 +81,7 @@
                                         1
                                         </td>
                                         <td>
-                                        <input type="text" name='name0'  placeholder='name' class="form-control" id="name0"/>
+                                        <input type="text" name='name0' style="background-color: white;"  placeholder='name' class="form-control" id="name0"/>
                                         </td>
                                         <td>
                                         <input type="text" name='email0' placeholder='email' class="form-control" id="email0"/>
@@ -101,7 +101,7 @@
                         </div>
                     </div>
                     <a id="add_row" class="btn btn-secondary">ADD</a>
-                    <a id="saveB" class="btn btn-secondary" onclick="gotoanother()" href="/Planner/pages/customerPage/sendInvitation.html">SAVE</a><!-- when click save go to sendInvitation page-->
+                    <a id="saveB" class="btn btn-secondary" onclick="gotoanother()" >SAVE</a><!-- when click save go to sendInvitation page-->
 
 
                 </div>
@@ -149,14 +149,38 @@
 <!-- href="/Planner/pages/customerPage/showGuest.html" -->
 <script>
     function gotoanother(){
-    var  i = parseInt(getCookie("counter"));
+        var  i = parseInt(getCookie("counter"));
+
+        for(var k = 0; k < i;k++){
+            document.getElementById("name"+k).style.backgroundColor = "white";
+            document.getElementById("email"+k).style.backgroundColor = "white";
+        if ($('#validation').length > 0) {
+            var row = document.getElementById("validation");
+            row.parentNode.removeChild(row);
+        }
+        }
+    
     for(var k = 0; k < i;k++)
     {
+
+        var patt = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if(document.getElementById("name"+k).value =="")
+        {
+            $("#conrainerdiv").append('<p style="color:red" id="validation">Please Enter a Name on '+(k+1)+' Guest.</p>');
+            document.getElementById("name"+k).style.backgroundColor = "crimson";
+            return;
+        }
+        if(!patt.test(document.getElementById("email"+k).value))
+        {   
+            $("#conrainerdiv").append('<p style="color:red" id="validation">Please Enter a Valid Email Account on '+(k+1)+' Guest.</p>');
+            document.getElementById("email"+k).style.backgroundColor = "crimson";
+            return;
+        }
         setCookie("addr"+k,document.getElementById("addr"+k),1)
         setCookie("email"+k,document.getElementById("email"+k).value,1)
         setCookie("name"+k,document.getElementById("name"+k).value,1)
         sel = document.getElementById("selection"+k)
-        var selectaccount = sel.selectedIndex
+        var selectaccount = sel.options[sel.selectedIndex].text
         setCookie("selection"+k,selectaccount,1)
         setCookie("row"+k,"<tr>\
                            <td>"+document.getElementById("name"+k).value+"</td>\
@@ -164,6 +188,8 @@
                            <td>"+sel.options[sel.selectedIndex].text+"</td>\
                            </tr>",1)
     }
+    // href="/Planner/pages/customerPage/sendInvitation.html"
+    window.location.href = "/Planner/pages/customerPage/sendInvitation.html";
     }
 
 </script>
@@ -174,25 +200,6 @@
 
 <script>
 $(document).ready(function(){
-
-
-
-//   if(getCookie("counter") != "")
-//   { 
-//     $("#myTable").html("<b></b>");
-//     var i = parseInt(getCookie("counter"));
-
-//     for(var k = 0 ; k< i ;k++)
-//     {
-//     $("#myTable").append(getCookie("addr"+k))
-//     document.getElementById("email"+k).value = getCookie("email"+k);
-//     document.getElementById("name"+k).value = getCookie("name"+k);
-//     sel = document.getElementById("selection"+k)
-//     sel.selectedIndex = parseInt(getCookie("selection"+k))
-//     }
-
-//     return;
-//   }  
   setCookie("counter",1,5);
    $("#add_row").click(function(){
     var i = parseInt(getCookie("counter"));

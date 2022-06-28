@@ -77,11 +77,12 @@ def email(request):
     time = request.GET.get('time')
     location = request.GET.get('location')
     name = request.GET.get('name')
+
     guest = GuestSerializer(data=request.data)
+    
+    subject = 'Palestine Planner'
     print(str(time)+"asdasdf")
     print(str(location)+"aasdasd")
-    subject = 'Palestine Planner'
-
     if guest.is_valid():
         message = ' hello ' + guest.data.get('name') + \
                   '\n I hope this message finds you well.\n I am Writing to you to invite ' \
@@ -91,6 +92,8 @@ def email(request):
         recipient_list = [guest.data.get('email'), ]
         send_mail(subject, message, email_from, recipient_list)
         return Response('redirect to a new page')
+    else:
+        return Response("error")
 
 # @api_view(['POST'])
 # def Score(request):

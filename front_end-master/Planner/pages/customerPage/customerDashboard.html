@@ -26,7 +26,6 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="">Home</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="">Vendors</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="\Planner\pages\customerPage\myEvent.html">My Events</a></li>
                     <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt">Log Out</i></a></li>
 
@@ -55,13 +54,13 @@
             <div class="container">
                 <div class="row">
                   <form class="row g-3">
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="nameevent">
                       <label for="inputName4" class="form-label">Event Name *</label>
                       <input type="text" class="form-control" id="inputName4">
                     </div>
                     <div class="col-md-6">
                       <label for="inputDate" class="form-label">Date *</label>
-                      <input type="date" class="form-control" id="inputDate">
+                      <input type="date" class="form-control"  id="inputDate">
                     </div>
                     <div class="col-md-6">
                       <label for="inputType" class="form-label">Type *</label>
@@ -90,7 +89,7 @@
                </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="MakeEvent()">Go</button>
+          <button type="button" class="btn btn-secondary"  onclick="MakeEvent()">Go</button>
         </div>
       </div>
     </div>
@@ -144,6 +143,15 @@
 </script>
 <script>
   window.onload = (event) => {
+    var today = new Date();
+    var month = ("0"+""+(today.getMonth()+1)).slice(-2);
+    var day = ("0"+""+today.getDate()).slice(-2);
+
+    var  date = today.getFullYear()+"-"+month+"-"+day;
+    var x = document.getElementById("inputDate").min = date;
+    var x = document.getElementById("inputDate").value = date;
+
+
       if(getCookie("token_user") != "")
       {
       $.ajax({
@@ -186,13 +194,21 @@
 </script>
 <script>
   function MakeEvent(){
+    if ($('#validation').length > 0) {
+            var row = document.getElementById("validation");
+            row.parentNode.removeChild(row);
+        }
     sel = document.getElementById("typetext")
       sel2 = document.getElementById("locationcity")
       var eventname = document.getElementById("inputName4").value;
       var datetext = document.getElementById("inputDate").value;
       var typename = sel.options[sel.selectedIndex].text;
       var locationname = sel2.options[sel2.selectedIndex].text;
-
+      
+      if(eventname == ""){
+        $("#nameevent").append('<p style="color:red" id="validation">Please Enter a Event Name</p>');
+          return;
+      }
 
       $.ajax({
 

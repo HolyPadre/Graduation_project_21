@@ -77,7 +77,7 @@
                         </div>
                     </div>
                     <br>
-                    <button type="button" class="btn btn-secondary">Send Invitiations</button>
+                    <button type="button" class="btn btn-secondary" onclick="sendemails()">Send Invitiations</button>
                 </div>
              
            
@@ -91,6 +91,61 @@
     <script src="/Event_Planner_FrontEnd//Planner/pages/customerPage/guest.js"></script>
 
 </body>
+<script>
+    function sendemails(){
+
+
+     var i = parseInt(getCookie("counter"));
+    
+
+     console.log(getCookie("requestid"))
+     $.ajax({
+                  url: "http://127.0.0.1:8086/item/requests", 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                      $.each(response, function (key, value) { 
+                            if(value.id == getCookie("requestid"))
+                            {   
+                                for(var k = 0 ; k< i ;k++)
+                                    {
+                                        console.log("http://127.0.0.1:8086/guests/send?time="+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time.split(":")[0]+":"+value.time.start_time.split(":")[1]+"&location="+value.event.location+"&name="+value.event.user.username)
+                                        console.log(getCookie("name"+k))
+                                        console.log(getCookie("email"+k))
+                                        console.log(getCookie("selection"+k))
+                                        console.log(value.event.id)
+
+
+                                    
+                                $.ajax({
+                                        url: "http://127.0.0.1:8086/guests/send?time="+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time.split(":")[0]+":"+value.time.start_time.split(":")[1]+"&location="+value.event.location+"&name="+value.event.user.username,
+                                        method: 'POST',
+                                        dataType: 'json',
+                                        data: {
+                                            "name": getCookie("name"+k),
+                                            "email" : getCookie("email"+k),
+                                            "relation" : getCookie("selection"+k),
+                                            "event": value.event.id
+                                    },
+                                    success: function(data) {
+                                        console.log(data)
+                                    }
+                                    })
+                                }
+
+                                window.location.href = "/Planner/pages/customerPage/customerDashboard.html";
+
+                            }
+                      })
+                  }
+                })
+
+
+
+
+
+    }
+</script>
 <script>
     $(document).ready(function(){
      var i = parseInt(getCookie("counter"));
