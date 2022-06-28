@@ -45,7 +45,6 @@ def all_contracts(request):
 def update_contracts(request, pk):
     contract = Contract.objects.get(pk=pk)
     data = ContractSerializer(instance=contract, data=request.data)
-
     if data.is_valid():
         data.save()
         return Response(data.data)

@@ -22,7 +22,7 @@ def add_guests(request):
 
     if guest.is_valid():
         guest.save()
-        return Response(guest.data,status=status.HTTP_201_CREATED)
+        return Response(guest.data, status=status.HTTP_201_CREATED)
     else:
         return Response(guest.data)
 
@@ -75,9 +75,15 @@ def delete_guests(request, pk):
 @api_view(['POST'])
 def email(request):
     guest = GuestSerializer(data=request.data)
+
     subject = 'Palestine Planner'
+
     if guest.is_valid():
-        message = ' hello ' + guest.data.get('name') + '\n I will invite to my party in techno park  '
+        message = ' hello ' + guest.data.get('name') + \
+                  '\n I hope this message finds you well.\n I am Writing to you to invite ' \
+                  ' you to my event. This will take place on  at grand park ' \
+                  '\n I hope to see you there 😄'
+
         email_from = settings.EMAIL_HOST_USER
         recipient_list = [guest.data.get('email'), ]
         send_mail(subject, message, email_from, recipient_list)

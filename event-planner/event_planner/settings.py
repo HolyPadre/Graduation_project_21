@@ -162,4 +162,4 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'palestineplanner@gmail.com'
-EMAIL_HOST_PASSWORD = 'ywlwsxzugydmnffq'
+EMAIL_HOST_PASSWORD = 'frpvjpaljawwpbjn'

@@ -40,6 +40,11 @@ class ReservedSerializer(serializers.ModelSerializer):
         model = resevedTable
         fields = ['time']
 
+class updateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = resevedTable
+        fields = ['status']
+
 
 class ReserveddSerializer(serializers.ModelSerializer):
     class Meta:

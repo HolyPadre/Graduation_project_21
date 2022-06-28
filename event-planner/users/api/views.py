@@ -3,7 +3,7 @@ from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .serializers import CustomerSignupSerializer, VendorSignupSerializer, UserSerializer,UserSerializerForTable
+from .serializers import CustomerSignupSerializer,PaymentSerializer, VendorSignupSerializer, UserSerializer, UserSerializerForTable
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.views import APIView
 from .permissions import IsCustomerUser, IsManagerUser, IsVendorUser
@@ -21,6 +21,8 @@ def view_users(request):
         return Response(serializer.data)
     else:
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
 class CustomerSignupView(generics.GenericAPIView):
     serializer_class = CustomerSignupSerializer
 
@@ -80,7 +82,7 @@ class CustomerOnlyView(generics.RetrieveAPIView):
 class VendorOnlyView(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated & IsVendorUser]
     serializer_class = UserSerializer
-    
+
     def get_object(self):
         return self.request.user
 
@@ -91,3 +93,18 @@ class ManagerOnlyView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
+
+
+@api_view(['PUT'])
+def payments(request, pk):
+    user = User.objects.get(pk=pk)
+    user.bank_name = request.data.get("bank_name")
+    user.bank_number = request.data.get("bank_number")
+    user.account_type = request.data.get("account_type")
+    serializer = PaymentSerializer(instance=user, data=request.data)
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    else:
+        return Response(serializer.data)

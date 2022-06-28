@@ -10,7 +10,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from ..models import Item, ItemType, resevedTable
 from .ItemSerializer import ItemSerializer, TypeSerializer, ReservedSerializer, ReserveddSerializer, \
-    ReservedAllSerializer
+    ReservedAllSerializer,updateSerializer
 
 
 @api_view(['GET'])
@@ -282,7 +282,9 @@ def all_Recommended_Item(request):
 def updateAvalibleTime(request, pk):
 
     reserved = resevedTable.objects.get(pk=pk)
-    serializer = ReserveddSerializer(instance=reserved, data=request.data)
+    reserved.status = request.data.get("status")
+    print(request.data.get("status"))
+    serializer = updateSerializer(instance=reserved, data=request.data)
 
     if serializer.is_valid():
         serializer.save()

@@ -6,7 +6,13 @@ from ..models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id','username', 'email', 'is_customer', 'is_vendor', 'is_manager']
+        fields = ['id', 'username', 'email', 'is_customer', 'is_vendor', 'is_manager']
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['bank_number', 'bank_name', 'account_type']
 
 
 class CustomerSignupSerializer(serializers.ModelSerializer):
