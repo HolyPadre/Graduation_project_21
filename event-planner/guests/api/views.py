@@ -1,3 +1,4 @@
+from ast import Return
 from django.db.models import Q
 from rest_framework.decorators import api_view
 from rest_framework.generics import get_object_or_404
@@ -17,8 +18,8 @@ def add_guests(request):
     guest = GuestSerializer(data=request.data)
 
     # validating for already existing data
-    if Guest.objects.filter(**request.data).exists():
-        raise serializers.ValidationError('This data already exists')
+    # if Guest.objects.filter(**request.data).exists():
+    #     return Response("This data already exists")
 
     if guest.is_valid():
         guest.save()

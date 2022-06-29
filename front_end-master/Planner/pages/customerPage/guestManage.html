@@ -21,6 +21,7 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/customerPage/customerDashboard.html"><i class="fas fa-clipboard-list"></i><span>Home</span></a></li>
                     <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Manage Guests</span></a></li>
                     <!-- <li class="nav-item" ><a class="nav-link" onclick="gotoanother()" href="/Planner/pages/customerPage/showGuest.html"><i class="fas fa-clipboard-list"></i><span>List of Guests</span></a></li> -->
 
@@ -89,7 +90,8 @@
                                         <td>
                                             <select class="form-select" aria-label="Default" id="selection0">
                                                 <option value="1">Friends</option>
-                                                <option value="3">Family</option>
+                                                <option value="2">Family</option>
+                                                <option value="3">Co-worker</option>
                                               </select>
                                         </td>
                                        
@@ -100,7 +102,7 @@
                             </table>
                         </div>
                     </div>
-                    <a id="add_row" class="btn btn-secondary">ADD</a>
+                    <a id="add_row" class="btn btn-secondary" onclick="addrow()">ADD</a>
                     <a id="saveB" class="btn btn-secondary" onclick="gotoanother()" >SAVE</a><!-- when click save go to sendInvitation page-->
 
 
@@ -143,6 +145,21 @@
             var delvalue = document.getElementById("del"+j)
             delvalue.id = "del"+(j-1);
         }
+        if(getCookie("geustid"+begin)!= null)
+        {
+        $.ajax({
+            url: 'http://127.0.0.1:8086/guests/guest/'+getCookie("geustid"+begin)+'/delete',
+            type: 'DELETE',
+            crossDomain: true,
+            success: function (data) {
+                setCookie("geustid"+begin,null,3);
+            },
+            error: function (data) {
+                console.log(data.responseText);
+            }
+            })
+        }
+        
         setCookie("counter",""+i,5);
 }
 </script>
@@ -159,11 +176,10 @@
             row.parentNode.removeChild(row);
         }
         }
-    
-    for(var k = 0; k < i;k++)
+    for(var k=0;k<i;k++)
     {
-
-        var patt = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        // var patt = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        var patt = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
         if(document.getElementById("name"+k).value =="")
         {
             $("#conrainerdiv").append('<p style="color:red" id="validation">Please Enter a Name on '+(k+1)+' Guest.</p>');
@@ -176,39 +192,127 @@
             document.getElementById("email"+k).style.backgroundColor = "crimson";
             return;
         }
-        setCookie("addr"+k,document.getElementById("addr"+k),1)
-        setCookie("email"+k,document.getElementById("email"+k).value,1)
-        setCookie("name"+k,document.getElementById("name"+k).value,1)
-        sel = document.getElementById("selection"+k)
-        var selectaccount = sel.options[sel.selectedIndex].text
-        setCookie("selection"+k,selectaccount,1)
-        setCookie("row"+k,"<tr>\
-                           <td>"+document.getElementById("name"+k).value+"</td>\
-                           <td>"+document.getElementById("email"+k).value+"</td>\
-                           <td>"+sel.options[sel.selectedIndex].text+"</td>\
-                           </tr>",1)
     }
-    // href="/Planner/pages/customerPage/sendInvitation.html"
-    window.location.href = "/Planner/pages/customerPage/sendInvitation.html";
+    for(var k=0;k<i;k++)
+    {   
+
+            console.log("ssss")
+            sel = document.getElementById("selection"+k)
+            var selectaccount = sel.options[sel.selectedIndex].text
+            var name = document.getElementById("name"+k).value;
+            var email = document.getElementById("email"+k).value;
+            var event_id = parseInt(getCookie("event_id"+getCookie("requestid")))
+            console.log(event_id);
+            console.log(email);
+            console.log(name);
+            console.log(selectaccount);
+
+        var added = true
+        $.ajax({
+                  url: "http://127.0.0.1:8086/guests/get/"+getCookie("event_id"+getCookie("requestid")), 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                    var check = true;
+                      $.each(response, function (key, value) {
+                        if((value.relation == selectaccount)&&(value.name==name)&&(value.email==email)&&(value.event==event_id))
+                        {
+                            check = false
+                        }
+       
+                      })
+                      if(check)
+                      {
+                        if(added)
+                        {
+                        $.ajax({
+                            url: 'http://127.0.0.1:8086/guests/create',
+                            type: 'POST',
+                            crossDomain: true,
+                            dataType: 'json',
+                            data: {
+                                "name": name,
+                                "email":email,
+                                "relation":selectaccount,
+                                "event":event_id,
+                            },
+                            success: function (data) {
+                            },
+                            200: function (data) {
+                                console.log(data.responseText);
+                            }
+                            })
+                            added = false
+                        }
+                      }
+                  }
+                })         
+        }
+        window.location.href = "/Planner/pages/customerPage/sendInvitation.html";
     }
 
 </script>
 
-
-
-
-
 <script>
 $(document).ready(function(){
-  setCookie("counter",1,5);
-   $("#add_row").click(function(){
-    var i = parseInt(getCookie("counter"));
-    $("#myTable").append("<tr id='addr"+i+"'><td id= 'value"+i+"'>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='name' class='form-control input-md' id='name"+i+"'/></td><td><input  name='email"+i+"' type='text' placeholder='email'  class='form-control input-md' id='email"+i+"' /></td><td> <select class='form-select' aria-label='Default' id = 'selection"+i+"'><option value='1'>Friends</option><option value='3'>Family</option></select></td><td><button type='button' class='btn btn-danger' id = 'del"+i+"'onclick='deleteRow(this)'>Delete</button></td>");
-    i++; 
-    setCookie("counter",""+i,5);
+    $.ajax({
+                  url: "http://127.0.0.1:8086/guests/get/"+getCookie("event_id"+getCookie("requestid")), 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                    var counter = 0;
+                      $.each(response, function (key, value) { 
+                                if(counter == 0)
+                                {
+                                    document.getElementById("name"+counter).value = value.name;
+                                    document.getElementById("email"+counter).value = value.email;
+                                    var selectedTrends = document.getElementById('selection0');
 
+                                    for(var i=0; i < selectedTrends.length; i++)
+                                    {
+                                    if(selectedTrends.options[i].text == value.relation)
+                                    {
+                                        selectedTrends.selectedIndex = i;
+                                        break;
+                                    }
+                                    }
+                                    counter++;
+                                }
+                                else{
+                                $("#myTable").append("<tr id='addr"+counter+"'><td id= 'value"+counter+"'>"+ (counter+1) +"</td><td><input name='name"+counter+"' type='text' placeholder='name' class='form-control input-md' id='name"+counter+"'/></td><td><input  name='email"+counter+"' type='text' placeholder='email'  class='form-control input-md' id='email"+counter+"' /></td><td> <select class='form-select' aria-label='Default' id = 'selection"+counter+"'><option value='1'>Friends</option><option value='2'>Family</option><option value='3'>Co-worker</option></select></td><td><button type='button' class='btn btn-danger' id = 'del"+counter+"'onclick='deleteRow(this)'>Delete</button></td>");
+                                document.getElementById("name"+counter).value = value.name;
+                                document.getElementById("email"+counter).value = value.email;
+                                var selectedTrends = document.getElementById('selection0');
+                                for(var i=0; i < selectedTrends.length; i++)
+                                {
+                                if(selectedTrends.options[i].text == value.relation)
+                                {
+                                    selectedTrends.selectedIndex = i;
+                                    break;
+                                }
+                                }
+                                counter++;
+                                }
+                      })
+                    if(counter == 0)
+                    {
+                        setCookie("counter",1,5);
+                    }
+                    else{
+                        setCookie("counter",counter,5);
+                    }
+                  }
+                }) 
 });
-});
+</script>
+<script>
+    function addrow()
+    {
+        var i = parseInt(getCookie("counter"));
+        $("#myTable").append("<tr id='addr"+i+"'><td id= 'value"+i+"'>"+ (i+1) +"</td><td><input name='name"+i+"' type='text' placeholder='name' class='form-control input-md' id='name"+i+"'/></td><td><input  name='email"+i+"' type='text' placeholder='email'  class='form-control input-md' id='email"+i+"' /></td><td> <select class='form-select' aria-label='Default' id = 'selection"+i+"'><option value='1'>Friends</option><option value='2'>Family</option><option value='3'>Co-worker</option></select></td><td><button type='button' class='btn btn-danger' id = 'del"+i+"'onclick='deleteRow(this)'>Delete</button></td>");
+        i++; 
+        setCookie("counter",""+i,5);
+    }
 </script>
 <script>
     function setCookie(name,value,days) {

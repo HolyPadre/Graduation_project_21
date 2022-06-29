@@ -21,8 +21,8 @@
                 </a>
                 <hr class="sidebar-divider my-0">
                 <ul class="navbar-nav text-light" id="accordionSidebar">
-                    <!-- <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-list"></i><span>Manage Guests</span></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fas fa-clipboard-list"></i><span>List of Guests</span></a></li> -->
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/customerPage/customerDashboard.html"><i class="fas fa-clipboard-list"></i><span>Home</span></a></li>
+                    <li class="nav-item"><a class="nav-link" href="/Planner/pages/customerPage/guestManage.html"><i class="fas fa-list"></i><span>Manage Guests</span></a></li>
 
    
                 </ul>
@@ -93,12 +93,8 @@
 </body>
 <script>
     function sendemails(){
-
-
-     var i = parseInt(getCookie("counter"));
     
 
-     console.log(getCookie("requestid"))
      $.ajax({
                   url: "http://127.0.0.1:8086/item/requests", 
                   type: "GET",          
@@ -107,53 +103,63 @@
                       $.each(response, function (key, value) { 
                             if(value.id == getCookie("requestid"))
                             {   
-                                for(var k = 0 ; k< i ;k++)
-                                    {
-                                        console.log("http://127.0.0.1:8086/guests/send?time="+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time.split(":")[0]+":"+value.time.start_time.split(":")[1]+"&location="+value.event.location+"&name="+value.event.user.username)
-                                        console.log(getCookie("name"+k))
-                                        console.log(getCookie("email"+k))
-                                        console.log(getCookie("selection"+k))
-                                        console.log(value.event.id)
 
+                                        $.ajax({
+                                                url: "http://127.0.0.1:8086/guests/get/"+getCookie("event_id"+getCookie("requestid")), 
+                                                type: "GET",          
+                                                cache: true, 
+                                                success: function(response){
+                                                    var counter = 0;
+                                                    $.each(response, function (key, guests) { 
+                                                        $.ajax({
+                                                                url: "http://127.0.0.1:8086/guests/send?time="+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time.split(":")[0]+":"+value.time.start_time.split(":")[1]+"&location="+value.event.location+"&name="+value.event.user.username,
+                                                                method: 'POST',
+                                                                dataType: 'json',
+                                                                data: {
+                                                                    "name": guests.name,
+                                                                    "email" : guests.email,
+                                                                    "relation" : guests.relation,
+                                                                    "event": value.event.id
+                                                            },
+                                                            success: function(data) {
+                                                                console.log(data)
+                                                            }
+                                                            })
+                                                            })
+                                                        }
+                                                        }) 
 
-                                    
-                                $.ajax({
-                                        url: "http://127.0.0.1:8086/guests/send?time="+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time.split(":")[0]+":"+value.time.start_time.split(":")[1]+"&location="+value.event.location+"&name="+value.event.user.username,
-                                        method: 'POST',
-                                        dataType: 'json',
-                                        data: {
-                                            "name": getCookie("name"+k),
-                                            "email" : getCookie("email"+k),
-                                            "relation" : getCookie("selection"+k),
-                                            "event": value.event.id
-                                    },
-                                    success: function(data) {
-                                        console.log(data)
-                                    }
-                                    })
-                                }
-
-                                window.location.href = "/Planner/pages/customerPage/customerDashboard.html";
+                                // window.location.href = "/Planner/pages/customerPage/customerDashboard.html";
 
                             }
                       })
                   }
                 })
-
-
-
-
-
     }
 </script>
 <script>
     $(document).ready(function(){
-     var i = parseInt(getCookie("counter"));
+    //  var i = parseInt(getCookie("counter"));
+     $.ajax({
+                  url: "http://127.0.0.1:8086/guests/get/"+getCookie("event_id"+getCookie("requestid")), 
+                  type: "GET",          
+                  cache: true, 
+                  success: function(response){
+                    var counter = 0;
+                      $.each(response, function (key, value) { 
+                        $("#showgeust").append("<tr>\
+                                            <td>"+value.name+"</td>\
+                                            <td>"+value.email+"</td>\
+                                            <td>"+value.relation+"</td>\
+                                            </tr>")
+                      })
+                  }
+                }) 
     
-     for(var k = 0 ; k< i ;k++)
-     {
-        $("#showgeust").append(getCookie("row"+k))
-     }
+    //  for(var k = 0 ; k< i ;k++)
+    //  {
+    //     $("#showgeust").append(getCookie("row"+k))
+    //  }
     });
     </script>
     <script>

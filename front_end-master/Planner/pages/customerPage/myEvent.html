@@ -197,7 +197,7 @@
                   success: function(response){
                       $.each(response, function (key, value) { 
                             if((value.event.user.id == getCookie("user_id"))&& value.status == "approve")
-                            {   setCookie("user_id",value.event.user.id,5)
+                            {  setCookie("event_id"+value.id,value.event.id,5)
                                 $("#eventtable").append("<tr>\
                                       <td>"+value.event.name+"</td>\
                                       <td>"+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time+"  -  "+value.time.end_date+" </td>\
@@ -219,6 +219,9 @@
 <script>
 function takeid(buttonid){
     setCookie("requestid",""+buttonid.split("request")[0],5);
+    alert(getCookie("event_id"+getCookie("requestid")))
+
+
 }
 </script>
 <script>
