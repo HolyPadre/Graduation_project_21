@@ -26,10 +26,10 @@
                             <form class="user" id="form">
                                 <div class="row mb-3" id="usernameid">
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="User Name *" name="username"></div>
-                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="Phone Number *" name="phone"></div>
+                                    <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="examplephone" placeholder="Phone Number *" name="phone"></div>
                                 </div>
-                                <div class="mb-3"><input class="form-control form-control-user" type="email" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address *" name="email"></div>
-                                <div class="row mb-3">
+                                <div class="mb-3"><input class="form-control form-control-user" type="text" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Email Address *" name="email"></div>
+                                <div class="row mb-3" id="passwords">
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="password" id="examplePasswordInput" placeholder="Password *" name="password"></div>
                                     <div class="col-sm-6"><input class="form-control form-control-user" type="password" id="exampleRepeatPasswordInput" placeholder="Repeat Password *" name="password2"></div>
                                 </div><button class="btn btn d-block btn-user w-100" type="submit" style="font-weight: 900; background-color: #2C3E50; color: aliceblue;">Register Account</button>
@@ -53,6 +53,39 @@
 <script>
     $('#form').submit(function (e) {
         e.preventDefault();
+        if ($('#validation').length > 0) {
+            var row = document.getElementById("validation");
+            row.parentNode.removeChild(row);
+        }
+
+        if(document.getElementById("exampleFirstName").value =="")
+        {
+            $("#passwords").append('<p style="color:red" id="validation">Please fill the requirements</p>');
+            return;
+        }
+        if(document.getElementById("examplephone").value =="")
+        {
+            $("#passwords").append('<p style="color:red" id="validation">Please fill the requirements</p>');
+            return;
+
+        }
+        var patt = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+        if(!patt.test(document.getElementById("exampleInputEmail").value))
+        {   
+            $("#passwords").append('<p style="color:red" id="validation">Please write a correct email</p>');
+            return;
+        }
+        if(document.getElementById("examplePasswordInput").value =="")
+        {
+            $("#passwords").append('<p style="color:red" id="validation">Please fill the requirements</p>');
+            return;
+
+        }
+        if(document.getElementById("exampleRepeatPasswordInput").value =="")
+        {
+            $("#passwords").append('<p style="color:red" id="validation">Please fill the requirements</p>');
+            return;
+        }
         $.ajax({
 
             type: 'POST',
@@ -68,9 +101,12 @@
             error: function (data) {
                 if(data.responseText == '{"username":["A user with that username already exists."]}')
                 {
-                    $("#usernameid").append('<p style="color:red" id="A user with that username already exists.</p>');
-                    return;
-                }           
+                    $("#usernameid").append('<p style="color:red" id="validation">A user with that username already exists.</p>');
+                }
+                else if(data.responseText == '{"error":"password do not match"}')
+                {
+                    $("#passwords").append('<p style="color:red" id="validation">password do not match.</p>');
+                }          
              }
         })
     });
