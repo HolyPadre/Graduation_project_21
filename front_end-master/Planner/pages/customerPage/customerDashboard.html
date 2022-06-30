@@ -58,7 +58,7 @@
                       <label for="inputName4" class="form-label">Event Name *</label>
                       <input type="text" class="form-control" id="inputName4">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="dateevent">
                       <label for="inputDate" class="form-label">Date *</label>
                       <input type="date" class="form-control"  id="inputDate">
                     </div>
@@ -151,6 +151,16 @@
     var x = document.getElementById("inputDate").min = date;
     var x = document.getElementById("inputDate").value = date;
 
+      if(getCookie("eventname") != null && getCookie("datetext") != null && getCookie("typeindex") != null && getCookie("locationIndex") != null)
+      {
+        document.getElementById("inputName4").value = getCookie("eventname");
+        document.getElementById("inputDate").value =  getCookie("datetext");
+        sel = document.getElementById("typetext")
+        sel2 = document.getElementById("locationcity")
+        sel.selectedIndex = getCookie("typeindex");
+        sel2.selectedIndex = getCookie("locationIndex");
+
+      }
 
       if(getCookie("token_user") != "")
       {
@@ -209,6 +219,10 @@
         $("#nameevent").append('<p style="color:red" id="validation">Please Enter a Event Name</p>');
           return;
       }
+      if(datetext == ""){
+        $("#dateevent").append('<p style="color:red" id="validation">Please Enter a Date</p>');
+          return;
+      }
 
       $.ajax({
 
@@ -249,6 +263,12 @@
 <script>
   function logoutfunction(){
   setCookie("token_user","",1);
+  setCookie("eventname",null,0)
+  setCookie("datetext",null,0)
+  setCookie("typename",null,0)
+  setCookie("locationname",null,0)
+  setCookie("typeindex",null,0)
+  setCookie("locationIndex",null,0)
   window.location.replace("/Planner/pages/loginRegisterPages/login.html");
   }
 

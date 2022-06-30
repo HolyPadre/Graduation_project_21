@@ -24,7 +24,7 @@
                                 <h4 class="text-dark mb-4">Create an Account!</h4>
                             </div>
                             <form class="user" id="form">
-                                <div class="row mb-3">
+                                <div class="row mb-3" id="usernameid">
                                     <div class="col-sm-6 mb-3 mb-sm-0"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="User Name *" name="username"></div>
                                     <div class="col-sm-6"><input class="form-control form-control-user" type="text" id="exampleFirstName" placeholder="Phone Number *" name="phone"></div>
                                 </div>
@@ -66,10 +66,25 @@
                  }
             },
             error: function (data) {
-                console.log(data);
-            }
+                if(data.responseText == '{"username":["A user with that username already exists."]}')
+                {
+                    $("#usernameid").append('<p style="color:red" id="A user with that username already exists.</p>');
+                    return;
+                }           
+             }
         })
     });
+</script>
+<script>
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+    }
 </script>
 <script>
     function getCookie(name) {
@@ -85,30 +100,42 @@
 </script>
 <script>
     window.onload = (event) => {
+        if(getCookie("token_user") != "")
+        {
         $.ajax({
-
-            type: 'POST',
-            url: 'http://127.0.0.1:8086/api/login',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                "username": getCookie("username_user"),
-                "password": getCookie("password_user")
-            },
-            success: function (data) {
-                 if(data.is_customer == true){
-                   window.location.replace("../../index.html");
-                     console.log(data.is_customer)
-                 }else if(data.is_vendor == true){
-                     window.location.replace("../vendorPage/vendorDashboard.html");
-                 }else if(data.is_customer == false && data.is_vendor == false  ){
-                     window.location.replace("../adminPage/adminDashboard.html");
-                 }
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
             },
             error: function (data) {
-                console.log(data);
             }
-        })
+                });
+
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+                
+            }
+                });
+            }
+
 };
 </script>
 </html>

@@ -91,7 +91,7 @@
                  }
             },
             error: function (data) {
-                console.log(data);
+                alert(data.responseText)
             }
         })
     });
@@ -108,16 +108,15 @@ document.cookie = name + "=" + (value || "")  + expires + "; path=/";
 }
 </script>
 <script>
-function getCookie(name) {
-var nameEQ = name + "=";
-var ca = document.cookie.split(';');
-for(var i=0;i < ca.length;i++) {
-    var c = ca[i];
-    while (c.charAt(0)==' ') c = c.substring(1,c.length);
-    if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+    function setCookie(name,value,days) {
+    var expires = "";
+    if (days) {
+        var date = new Date();
+        date.setTime(date.getTime() + (days*24*60*60*1000));
+        expires = "; expires=" + date.toUTCString();
+        }
+    document.cookie = name + "=" + (value || "")  + expires + "; path=/";
     }
-return null;
-}
 </script>
 <script>
     function getCookie(name) {
@@ -133,30 +132,42 @@ return null;
 </script>
 <script>
     window.onload = (event) => {
+        if(getCookie("token_user") != "")
+        {
         $.ajax({
-
-            type: 'POST',
-            url: 'http://127.0.0.1:8086/api/login',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                "username": getCookie("username_user"),
-                "password": getCookie("password_user")
-            },
-            success: function (data) {
-                 if(data.is_customer == true){
-                   window.location.replace("../../index.html");
-                     console.log(data.is_customer)
-                 }else if(data.is_vendor == true){
-                     window.location.replace("../vendorPage/vendorDashboard.html");
-                 }else if(data.is_customer == false && data.is_vendor == false  ){
-                     window.location.replace("../adminPage/adminDashboard.html");
-                 }
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
             },
             error: function (data) {
-                console.log(data);
             }
-        })
+                });
+
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+            }
+                });
+            }
+
 };
 </script>
+
 </html>

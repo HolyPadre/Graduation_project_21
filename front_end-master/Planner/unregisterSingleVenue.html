@@ -27,9 +27,9 @@
         <div class="container"><a class="navbar-brand" href="#page-top"> <span style="color: #20c997;">P</span>lanner</a><button data-bs-toggle="collapse" data-bs-target="#navbarResponsive" class="navbar-toggler text-white bg-primary navbar-toggler-right text-uppercase rounded" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><i class="fa fa-bars"></i></button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="/Planner/pages/customerPage/customerDashboard.html">Home</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="/Planner/pages/customerPage/myEvent.html">My Events</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="" onclick="logoutfunction()"><i class="fas fa-sign-out-alt">Log Out</i></a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link px-0 px-lg-3 rounded" href="/Planner/index.html">Home</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a type="button" class="nav-link px-0 px-lg-3 rounded" onclick="gotounregistervenues()">Venues</a></li>
+                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link  px-0 px-lg-3 rounded" href="/Planner/pages/loginRegisterPages/login.html"><i class="fas fa-sign-out-alt">Log In</i></a></li>
                 </ul>
             </div>
         </div>
@@ -279,7 +279,7 @@
                           <!-- <div class="carousel-item active">
                             <div class="cards-wrapper">
                                 <div class="card d-none d-md-block">
-                                    <a href="/Event_Planner_FrontEnd/Planner/pages/customerPage/singleVenue.html" style="text-decoration: none;">
+                                    <a href="/Event_Planner_FrontEnd/Planner/unregisterSingleVenue.html" style="text-decoration: none;">
                                       <div class="card" style="width: 25rem;">
                                         <img src="/Event_Planner_FrontEnd/Planner/assets/images/g-1.jpg" class="card-img-top" alt="...">
                                         <div class="card-body">
@@ -367,54 +367,45 @@
   <script>
     function logoutfunction(){
     setCookie("token_user","",1);
-    setCookie("eventname",null,0)
-    setCookie("datetext",null,0)
-    setCookie("typename",null,0)
-    setCookie("locationname",null,0)
-    setCookie("typeindex",null,0)
-    setCookie("locationIndex",null,0)
     window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
 </script>
 <script>
     window.onload = (event) => {
         if(getCookie("token_user") != "")
-      {
-      $.ajax({
-              url: "http://127.0.0.1:8086/api/customer/dashboard",
-              type: 'GET',
-              headers: {"Authorization":"Token "+getCookie("token_user")},
-              success: function (data) {
-          },
-          error: function (data) {
-          }
-              });
+        {
+        $.ajax({
+                url: "http://127.0.0.1:8086/api/customer/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/customerPage/customerDashboard.html");
+            },
+            error: function (data) {
+            }
+                });
 
-              $.ajax({
-              url: "http://127.0.0.1:8086/api/vendor/dashboard",
-              type: 'GET',
-              headers: {"Authorization":"Token "+getCookie("token_user")},
-              success: function (data) {
-                  window.location.replace("../vendorPage/vendorDashboard.html?username="+$("#username").val());
-          },
-          error: function (data) {
-          }
-              });
-              $.ajax({
-              url: "http://127.0.0.1:8086/api/manager/dashboard",
-              type: 'GET',
-              headers: {"Authorization":"Token "+getCookie("token_user")},
-              success: function (data) {
-                  window.location.replace("../adminPage/adminDashboard.html?username="+$("#username").val())
-          },
-          error: function (data) {
-          }
-              });
-          }
-          else{
-              window.location.replace("/Planner/pages/loginRegisterPages/login.html");
-          }
-        console.log(getCookie("name_item"))
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/vendor/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/vendorPage/vendorDashboard.html?username="+$("#username").val());
+            },
+            error: function (data) {
+            }
+                });
+                $.ajax({
+                url: "http://127.0.0.1:8086/api/manager/dashboard",
+                type: 'GET',
+                headers: {"Authorization":"Token "+getCookie("token_user")},
+                success: function (data) {
+                    window.location.replace("/Planner/pages/adminPage/adminDashboard.html?username="+$("#username").val())
+            },
+            error: function (data) {
+            }
+                });
+            }
         $.ajax({
                   url: "http://localhost:8000/item/recommended?itemstr="+getCookie("name_item"),
                   type: "GET",          
@@ -433,12 +424,12 @@
                             cardid++;
                             $("#recommendetcards").append("<div class='carousel-item active' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
                             $("#"+cardid+"cardid").append("<div class='card'>\
-                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
                                                         <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
                                                         <div class='card-body'>\
                                                         <h5 class='card-title'>"+value.name+"</h5>\
                                                         <p class='card-text'>"+str+"</p>\
-                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
                                                         </div>\
                                                         </a>\
                                                         </div>");
@@ -449,24 +440,24 @@
                         cardid++;
                         $("#recommendetcards").append("<div class='carousel-item' ><div class='cards-wrapper' id='"+cardid+"cardid'></div></div>")
                         $("#"+cardid+"cardid").append("<div class='card' >\
-                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
                                                         <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
                                                         <div class='card-body'>\
                                                         <h5 class='card-title'>"+value.name+"</h5>\
                                                         <p class='card-text'>"+str+"</p>\
-                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
                                                         </div>\
                                                         </a>\
                                                         </div>");
                         }else
                         {
                             $("#"+cardid+"cardid").append("<div class='card'>\
-                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                                        <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
                                                         <img src='"+imagesurl+"' class='card-img-top' alt='...' >\
                                                         <div class='card-body'>\
                                                         <h5 class='card-title'>"+value.name+"</h5>\
                                                         <p class='card-text'>"+str+"</p>\
-                                                        <a href='/Planner/pages/customerPage/singleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
+                                                        <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' class='btn btn-primary'>Go</a>\
                                                         </div>\
                                                         </a>\
                                                         </div>");
@@ -476,11 +467,6 @@
                       
                   }
                 })
-
-
-
-
-
 
   };
   </script>
@@ -664,27 +650,16 @@
   </script>
 <script>
 function sendrequest(){
-    sel = document.getElementById("timeslots")
-    $.ajax({type: 'POST',
-            url: 'http://localhost:8086/item/request/create',
-            crossDomain: true,
-            dataType: 'json',
-            data: {
-                    "status": false,
-                    "time": sel.value,
-                    "reserved_date": getCookie("data_event"),
-                    "item": getCookie("item_id"),
-                    "event": getCookie("event_id"),
-                },
-            success: function (data) {
-                alert("Your request is under review!")
-
-            },
-            error: function (data) {
-                console.log(data);
-            }
-            })
-
+    window.location.replace("/Planner/pages/loginRegisterPages/login.html");
 }
+</script>
+<script>
+    function gotounregistervenues(){
+        var eventname = getCookie("eventname")
+        var datetext = getCookie("datetext")
+        var type = getCookie("typename")
+        var location = getCookie("locationname")
+        window.location.href = "/Planner/unregisterVenues.html?eventname="+eventname+"&datetext="+datetext+"&type="+type+"&location="+location;
+    }
 </script>
 </html>

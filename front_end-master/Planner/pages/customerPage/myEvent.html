@@ -276,6 +276,12 @@ function takeid(buttonid){
   <script>
     function logoutfunction(){
     setCookie("token_user","",1);
+    setCookie("eventname",null,0)
+    setCookie("datetext",null,0)
+    setCookie("typename",null,0)
+    setCookie("locationname",null,0)
+    setCookie("typeindex",null,0)
+    setCookie("locationIndex",null,0)
     window.location.replace("/Planner/pages/loginRegisterPages/login.html");
     }
   
