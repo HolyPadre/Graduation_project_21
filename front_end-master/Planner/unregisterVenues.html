@@ -191,11 +191,11 @@
                                     <div class="container">
                                         <div class="row">
                                             <span style="size: 25px; font-weight: 900; ">Search By Venue Name:</span><br>
-                                            <input type="text" class="form-control" id="inputName" placeholder="enter venue name *">
+                                            <input type="text" class="form-control" id="inputNamesearch" placeholder="enter venue name *">
                                        </div>
                                 </div>
                                 <div class="modal-footer">
-                                  <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Search</button>
+                                  <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="findbyname()">Search</button>
                                 </div>
                               </div>
                             </div>
@@ -862,5 +862,56 @@
   function sendrequest(){
     window.location.replace("/Planner/pages/loginRegisterPages/login.html");
   }
+  </script>
+   <script>
+    function findbyname(){
+      var name = document.getElementById("inputNamesearch").value
+      $("#venusetable").html("<div class='row'>\
+                            <div class='container'>\
+                            <nav aria-label='...'>\
+                            <ul class='pagination'>\
+                            <li class='page-item disabled'>\
+                            <a class='page-link' href='#'' tabindex='-1' aria-disabled='true'>Previous</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>1</a></li>\
+                            <li class='page-item active' aria-current='page'>\
+                              <a class='page-link' href='#'>2</a>\
+                            </li>\
+                            <li class='page-item'><a class='page-link' href='#'>3</a></li>\
+                            <li class='page-item'>\
+                              <a class='page-link' href='#'>Next</a>\
+                            </li>\
+                          </ul>\
+                        </nav>\
+                  </div>\
+              </div>")
+    $.ajax({
+                url: "http://127.0.0.1:8086/item/item?name="+name, 
+                type: "GET",          
+                cache: true, 
+                success: function(response){
+                    $.each(response, function (key, value) { 
+                      images = value.images[0].item_image.split(":5500");
+                      imagesurl = "http://127.0.0.1:8000/media"+images[0];
+                      console.log(imagesurl)
+                      str = value.about;
+                      if(str.length > 200) str = str.substring(0,200) + "...."; 
+                      $('#venusetable').prepend("<div class='col-lg-4 col-md-6'>\
+                                              <a href='/Planner/unregisterSingleVenue.html?id="+value.id+"' style='text-decoration: none;'>\
+                                              <div class='card' style='width: 25rem;'>\
+                                              <img src='"+imagesurl+"' class='card-img-top' alt='...' style='width:400px; height:200px; background-position:center;'>\
+                                              <div class='card-body'>\
+                                              <h5 class='card-title'>"+value.name+"</h5>\
+                                              <p class='card-text' style='color: black;'>"+str+"</p>\
+                                              <a href='#' class='btn btn-primary'>Requset Pricing</a>\
+                                              </div>\
+                                              </div>\
+                                              </a>\
+                                              </div>");
+                    })
+                    
+                }
+              })
+    }
   </script>
 </html>
