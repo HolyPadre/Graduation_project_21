@@ -31,7 +31,7 @@ def add_guests(request):
 @api_view(['GET'])
 def view_guests(request):
     # checking for the parameters from the URL
-    guests = Guest.objects.all()
+    guests = Guest.objects.all().distinct()
     serializer = GuestSerializer(guests, many=True)
 
     # if there is something in items else raise error
@@ -44,7 +44,7 @@ def view_guests(request):
 @api_view(['GET'])
 def ViewGuestsByEventId(request, event):
     # checking for the parameters from the URL
-    guests = Guest.objects.filter(event=event)
+    guests = Guest.objects.filter(event=event).distinct()
     serializer = GuestSerializer(guests, many=True)
 
     # if there is something in items else raise error

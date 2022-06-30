@@ -108,7 +108,7 @@ def all_item_has_type(request):
 @api_view(['GET'])
 def all_item_by_name(request):
     name = request.GET.get('name')
-    items = Item.objects.all().filter(name=name).distinct()
+    items = Item.objects.all().filter(name__contains=name).distinct()
     serializer = ItemSerializer(items, many=True)
 
     # if there is something in items else raise error
