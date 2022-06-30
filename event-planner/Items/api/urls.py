@@ -19,6 +19,7 @@ urlpatterns = [
     path('mostRated', views.all_item_Most_rated, name='view-types'),
     path('capicty', views.all_item_capisty, name='view-types'),
     path('times/<int:pk>', views.returnAvalibleTime, name='times'),
+    path('reserved/delete/<int:pk>', views.delete_request, name='times'),
     path('request/<int:pk>', views.updateAvalibleTime, name='updateAvalibleTime'),
     path('request/create', views.add_request, name='add_request'),
 

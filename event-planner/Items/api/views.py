@@ -1,6 +1,8 @@
 import os
 
+import numpy as np
 import pandas as pd
+from django.shortcuts import get_object_or_404
 from rest_framework import status, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -10,7 +12,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 from ..models import Item, ItemType, resevedTable
 from .ItemSerializer import ItemSerializer, TypeSerializer, ReservedSerializer, ReserveddSerializer, \
-    ReservedAllSerializer,updateSerializer
+    ReservedAllSerializer, updateSerializer
 
 
 @api_view(['GET'])
@@ -277,12 +279,11 @@ def all_Recommended_Item(request):
     return Response(serializer.data)
 
 
-
 @api_view(['PUT'])
 def updateAvalibleTime(request, pk):
-
     reserved = resevedTable.objects.get(pk=pk)
     reserved.status = request.data.get("status")
+    name = request.data.get("status")
     print(request.data.get("status"))
     serializer = updateSerializer(instance=reserved, data=request.data)
 
@@ -291,3 +292,11 @@ def updateAvalibleTime(request, pk):
         return Response(serializer.data)
     else:
         return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+def delete_request(request, pk):
+    reseved = get_object_or_404(resevedTable, pk=pk)
+    reseved.delete()
+    return Response(status=status.HTTP_202_ACCEPTED)
+
