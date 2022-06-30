@@ -209,18 +209,6 @@
                         <ul id="dialog-recommend-validation-summary"></ul>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-4 control-label" style="font-weight: 900;">Title:</label>
-                        <div class="col-sm-12">
-                            <input maxlength="100" tabindex="7001" class="form-control" id="RecDialogTitleTextBox" name="RecDialogTitleTextBox" type="text" placeholder="Summarize your experience with this business">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label"style="font-weight: 900;">Your Location:</label>
-                        <div class="col-sm-12">
-                            <input maxlength="100" tabindex="7002" class="form-control typeahead search-city" id="RecDialogLocationTextBox" name="RecDialogLocationTextBox" type="text" placeholder="City, State/Province">
-                        </div>
-                    </div>
-                    <div class="form-group">
                         <label class="col-sm-4 control-label"style="font-weight: 900;">Email:</label>
                         <div class="col-sm-12">
                             <input maxlength="100" tabindex="7003" class="form-control" id="RecDialogEmailTextBox" name="RecDialogEmailTextBox" type="text" placeholder="Your Email">
@@ -234,7 +222,7 @@
                     </div>
                 </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal">Submit</button>
+              <button type="button" class="btn btn-secondary"  data-bs-dismiss="modal" onclick="writecoment()">Submit</button>
             </div>
           </div>
         </div>
@@ -385,6 +373,7 @@
               type: 'GET',
               headers: {"Authorization":"Token "+getCookie("token_user")},
               success: function (data) {
+                setCookie("user_id",data.id,2)
           },
           error: function (data) {
           }
@@ -686,5 +675,24 @@ function sendrequest(){
             })
 
 }
+</script>
+<script>
+    function writecoment(){
+        $.ajax({type: 'POST',
+            url: 'http://127.0.0.1:8086/feedbacks/create/',
+            crossDomain: true,
+            dataType: 'json',
+            data: {
+                    "user": getCookie("user_id"),
+                    "email":document.getElementById("RecDialogEmailTextBox").value,
+                    "description":document.getElementById("RecDialogDescTextBox").value
+                },
+            success: function (data) {
+            },
+            error: function (data) {
+                alert(getCookie("user_id"))
+            }
+            })
+    }
 </script>
 </html>
