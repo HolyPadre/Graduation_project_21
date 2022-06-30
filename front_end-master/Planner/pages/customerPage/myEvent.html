@@ -203,8 +203,8 @@
                                       <td>"+value.reserved_date.split("T")[0]+"  Time  "+value.time.start_time+"  -  "+value.time.end_date+" </td>\
                                       <td>"+value.event.location+"</td>\
                                       <td>\
-                                      <button type='button' class='btn btn-primary'>Contract</button>\
-                                      <button type='button' class='btn btn-secondary' data-bs-toggle='modal' data-bs-target='#exampleModal1' id ='"+value.id+"request' onclick = 'takeid(this.id)'>Payment</button>\
+                                      <button type='button' class='btn btn-danger' id ='"+value.id+"delete' onclick='deleterequest(this.id)'>Delete</button>\
+                                      <button type='button' class='btn btn-secondary'  data-bs-toggle='modal' data-bs-target='#exampleModal1' id ='"+value.id+"request' onclick = 'takeid(this.id)'>Payment</button>\
                                       </td>\
                                       </tr>");
                             }
@@ -217,10 +217,24 @@
   };
   </script>
 <script>
+    function deleterequest(buttonid){
+
+        $.ajax({
+              url: "http://127.0.0.1:8086/item/reserved/delete/"+buttonid.split("delete")[0],
+              type: 'DELETE',
+              success: function (data) {
+                location.reload();
+          },
+
+          error: function (data) {
+          }
+              });
+
+    }
+</script>
+<script>
 function takeid(buttonid){
     setCookie("requestid",""+buttonid.split("request")[0],5);
-    alert(getCookie("event_id"+getCookie("requestid")))
-
 
 }
 </script>
